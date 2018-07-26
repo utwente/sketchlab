@@ -1,0 +1,105 @@
+/*
+ * CSS Media Query breakpoints
+ */
+$breakpoint-phone-size: 600px;
+$breakpoint-tablet-size: 900px;
+
+// Breakpoints (use as @media #{$breakpoint-only-phone}) {...})
+$breakpoint-only-phone: "screen and (max-width: #{$breakpoint-phone-size})";
+$breakpoint-only-tablet: "screen and (min-width: #{$breakpoint-phone-size}) and (max-width: #{$breakpoint-tablet-size})";
+$breakpoint-only-desktop: "screen and (min-width: #{$breakpoint-tablet-size})";
+
+$breakpoint-phone-and-tablet: "screen and (max-width: #{$breakpoint-tablet-size})";
+$breakpoint-tablet-and-desktop: "screen and (min-width: #{$breakpoint-phone-size})";
+
+// Screen sizes
+$minimum-screen-width: 320px;
+
+/*
+ * General page design and properties
+ */
+// Default text settings
+$default-text-color: black;
+$default-text-color-light: lighten($default-text-color, 25%);
+$default-text-color-lighter: #a3a3a3;
+$default-text-size: 1rem;
+$default-text-size-small: 0.8rem;
+$default-text-size-large: 1.2rem;
+$default-text-size-larger: 1.7rem;
+$default-text-size-huge: 3rem;
+
+// Page design
+$background-color: #ececec;
+$hr-color: #dbdbdb;
+$footer-color: white;
+$footer-background-color: #acacac;
+$footer-font-size: 0.8rem;
+
+// Colors
+$accent-color: #fdd33f;
+$accent-color-gray: #bebebe;
+$accent-color-red: #FD3F3D;
+$accent-color-green: #3DFD3D;
+$accent-color-black: #1f2229; //UT website black.
+
+// Track colors
+$colorIdeation: #22b473; // green
+$colorForm: #43c4f7; // blue
+$colorBasics: #f5cc00; // yellow
+$colorCommunication: #ff838f; // pink/red
+
+// Logo
+$sketchlab-logo-color: $accent-color;
+$sketchlab-logo-hover-color: darken($sketchlab-logo-color, 5%);
+$sketchlab-logo-font-size: 1rem;
+
+// Tabbars
+$tabbar-height: 60px;
+$tabbar-item-spacing: 30px;
+$tabbar-link-color: $default-text-color-lighter;
+$tabbar-link-active-color: black;
+$tabbar-background-color: white;
+
+// Borders
+@mixin tabbar-left-border {
+	border-left: 1px solid $hr-color;
+}
+@mixin tabbar-top-border {
+	border-top: 1px solid $hr-color;
+}
+
+@mixin tabbar-bottom-border {
+	border-bottom: 1px solid $hr-color;
+}
+
+@mixin tabbar-right-border {
+	border-right: 1px solid $hr-color;
+}
+
+// Hamburger menu
+$hamburger-shadow-color: rgba(0, 0, 0, 0.3);
+
+$page-segment-spacing: 2rem;
+$page-segment-inner-spacing: 1rem;
+$page-segment-background-color: white;
+
+@mixin page-segment {
+	background-color: $page-segment-background-color;
+	padding: $page-segment-inner-spacing;
+	box-sizing: border-box;
+}
+
+// Buttons
+$button-color: white;
+$button-width: 150px;
+$button-background-color: $accent-color-gray;
+$button-hover-background-color: darken($button-background-color, 5%);
+$button-active-background-color: $accent-color;
+
+// Responsive sizes
+$phone-minimum-width: 320px;
+
+// Dialogs
+$dialog-width: 360px;
+$dialog-min-height: 150px;
+$dialog-header-size: 1.5rem;

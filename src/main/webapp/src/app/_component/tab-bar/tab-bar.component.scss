@@ -1,0 +1,44 @@
+@import "../../../styles/variables.scss";
+
+nav {
+	overflow: auto;
+	background-color: $tabbar-background-color;
+	margin-bottom: $page-segment-spacing;
+
+	ul {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		@include tabbar-bottom-border;
+
+		::ng-deep > li > a {
+			text-decoration: none;
+			color: $tabbar-link-color;
+		}
+
+		::ng-deep > li {
+			padding: 20px $tabbar-item-spacing/2;
+			flex: initial;
+			user-select: none;
+			cursor: pointer;
+
+			&:hover a, &.selected a {
+				color: $tabbar-link-active-color;
+			}
+		}
+	}
+}
+
+@media #{$breakpoint-only-phone} {
+	// On phones, evenly divide the space around the tab bar items
+	// instead of centering them with fixed padding
+	nav ul {
+		justify-content: space-evenly;
+		::ng-deep li {
+			padding: 20px 0;
+		}
+	}
+}

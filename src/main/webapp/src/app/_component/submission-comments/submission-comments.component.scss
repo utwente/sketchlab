@@ -1,0 +1,15 @@
+@import "../../../styles/variables";
+
+h1 {
+	font-size: $default-text-size-large;
+	margin-bottom: $page-segment-inner-spacing;
+}
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+
+	li:not(:last-child) {
+		margin-bottom: $page-segment-inner-spacing;
+	}
+}

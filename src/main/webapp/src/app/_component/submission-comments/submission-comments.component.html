@@ -1,0 +1,17 @@
+<ng-container *ngIf="annotations">
+	<h1>Comments
+		<ng-container *ngIf="annotations.length > 0">({{annotations.length}})</ng-container>
+	</h1>
+
+	<ul *ngIf="annotations.length > 0; else noAnnotations">
+		<li *ngFor="let annotation of annotations">
+			<submission-comment [submission]="submission" [annotation]="annotation"
+								[selected]="annotation.id == selectedAnnotationId" (onDelete)="reloadContent()">
+			</submission-comment>
+		</li>
+	</ul>
+</ng-container>
+
+<ng-template #noAnnotations>
+	<p class="info-message">Nobody has left a comment yet.</p>
+</ng-template>

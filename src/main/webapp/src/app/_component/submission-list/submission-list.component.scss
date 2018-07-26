@@ -1,0 +1,34 @@
+@import "../../../styles/variables";
+
+.content-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+
+
+	& > *:not(.info-message) {
+		//margin: 0 0 $page-segment-inner-spacing 0;
+		//margin: auto;
+		padding: 0.5 * $page-segment-inner-spacing;
+	}
+
+	.info-message {
+		flex: auto;
+	}
+}
+.page-container {
+	display: flex;
+	justify-content: center;
+
+	&:not(:last-child) {
+		margin-bottom: $page-segment-inner-spacing;
+	}
+}
+
+@media #{$breakpoint-only-phone} {
+	.content-wrapper {
+		& > *:not(.info-message) {
+			margin: 0 0 $page-segment-inner-spacing 0;
+		}
+	}
+}

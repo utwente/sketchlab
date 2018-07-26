@@ -1,0 +1,115 @@
+@import "../../../styles/variables.scss";
+
+.enrollment {
+	background-color: $page-segment-background-color;
+	padding: $page-segment-inner-spacing;
+
+	box-sizing: border-box;
+	width: 100%;
+
+	display: grid;
+	grid-template-columns: [first] 150px auto [end];
+	grid-column-gap: $page-segment-inner-spacing;
+	justify-content: stretch;
+	justify-items: stretch;
+
+	.grade {
+		grid-column-start: 1;
+		grid-row-start: 2;
+		font-size: $default-text-size-huge;
+		text-align: center;
+		input {
+			display: inline;
+			min-width: auto;
+			width: 100%;
+			box-sizing: border-box;
+			text-align: center;
+			height: 100%;
+		}
+	}
+
+	.enrollment-info {
+		grid-column-start: 2;
+		grid-row-start: 1;
+
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-start;
+
+		h1, time {
+			margin: 0;
+			padding: 0 0.5em 0 0;
+			font-weight: normal;
+		}
+		h1 {
+			font-size: 1.2em;
+		}
+		time {
+			margin-left: auto;
+			font-size: 0.8em;
+			color: $default-text-color-light;
+		}
+	}
+
+	.grade-description {
+		display: block;
+		justify-self: stretch;
+		grid-column-start: 2;
+		grid-row-start: 2;
+
+		textarea {
+			resize: vertical;
+			min-height: 150px;
+		}
+	}
+
+	.grade-buttons {
+		grid-column-start: 1;
+		grid-row-start: 3;
+		margin-top: $page-segment-inner-spacing;
+		display: flex;
+
+		button:not(:last-child) {
+			margin-right: $page-segment-inner-spacing;
+		}
+
+		div {
+			display: flex;
+			align-items: center;
+			font-size: $default-text-size-large;
+		}
+	}
+}
+
+@media #{$breakpoint-only-phone} {
+	.enrollment {
+		grid-template-columns: [first] auto [end];
+		.grade {
+			grid-row-start: 1;
+			grid-column-start: 1;
+			grid-row-end: 1;
+			margin: 0;
+		}
+		.enrollment-info {
+			grid-row-start: 2;
+			grid-column-start: 1;
+		}
+		.grade-description {
+			grid-row-start: 3;
+			grid-column-start: 1;
+			padding-left: 0;
+		}
+		.grade-buttons {
+			grid-row-start: 4;
+			grid-column-start: 1;
+		}
+	}
+	.grade-buttons {
+		button {
+			min-width: auto;
+			width: 50%;
+
+			margin: 0;
+		}
+	}
+}

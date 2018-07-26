@@ -1,0 +1,22 @@
+@import "../../../styles/variables";
+
+.container {
+	position: relative;
+	overflow: hidden;
+	border-radius: 50%;
+	font-weight: bold;
+	color: white;
+	box-sizing: border-box;
+	user-select: none;
+
+	&.editable:hover {
+		cursor: pointer;
+	}
+
+	.text-content {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+	}
+}

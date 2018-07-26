@@ -1,0 +1,9 @@
+@import "../../../../styles/variables";
+
+.notification-container {
+	cursor: pointer;
+	border: 1px solid $button-background-color;
+	&:hover {
+		border-color: $button-hover-background-color;
+	}
+}

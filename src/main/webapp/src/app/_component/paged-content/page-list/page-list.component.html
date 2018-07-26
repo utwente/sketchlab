@@ -1,0 +1,33 @@
+<ng-container *ngIf="totalPages > 0">
+	<ul class="page-list" [ngSwitch]="totalPages">
+		<ng-container *ngSwitchCase="1">
+			<!-- 1 page available -->
+			<li (click)="pageClicked(1)" class="active">1</li>
+		</ng-container>
+
+		<ng-container *ngSwitchCase="2">
+			<!-- 2 pages available -->
+			<li (click)="pageClicked(1)" [ngClass]="{active: currentPage == 1}">
+				1
+			</li>
+			<li (click)="pageClicked(totalPages)" [ngClass]="{active: currentPage == totalPages}">
+				{{totalPages}}
+			</li>
+		</ng-container>
+
+		<ng-container *ngSwitchDefault>
+			<!-- 3 or more pages available. -->
+			<li (click)="pageClicked(1)" [ngClass]="{active: currentPage == 1}">1</li>
+			<li (click)="pageClicked(currentPage - 1)" *ngIf="hasPrevious" class="move-left">
+				<fa name="arrow-left"></fa>
+			</li>
+			<li class="active" *ngIf="hasNext && hasPrevious">{{currentPage}}</li>
+			<li (click)="pageClicked(currentPage + 1)" *ngIf="hasNext" class="move-right">
+				<fa name="arrow-right"></fa>
+			</li>
+			<li (click)="pageClicked(totalPages)" [ngClass]="{active: currentPage == totalPages}">
+				{{totalPages}}
+			</li>
+		</ng-container>
+	</ul>
+</ng-container>

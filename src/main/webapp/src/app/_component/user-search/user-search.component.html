@@ -1,0 +1,25 @@
+<div>
+	<form [formGroup]="searchForm" (change)="findUsers()">
+		<label class="input-with-icon">
+			<span class="icon"><fa name="search"></fa></span>
+			<input type="text" formControlName="searchInput" (keyup)="findUsers()">
+		</label>
+		<button class="text-button" (click)="toggleAdvancedOptions(); $event.stopPropagation()">
+			{{showAdvancedOptions ? "Hide" : "Show"}} advanced options
+		</button>
+		<div class="advanced" [ngClass]="{'visible': showAdvancedOptions}">
+			<label *ngIf="!limitUserType">User type:
+				<select formControlName="userType">
+					<option *ngFor="let type of userTypes">{{type | titlecase}}</option>
+				</select>
+			</label>
+			<label>Result limit:&nbsp;<input type="number" formControlName="limit"></label>
+			<label class="checkbox">
+				<span>
+					Include inactive users
+					<input type="checkbox" formControlName="includeInactive">
+				</span>
+			</label>
+		</div>
+	</form>
+</div>

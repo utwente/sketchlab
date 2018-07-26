@@ -1,0 +1,14 @@
+<option-select
+		*ngIf="chapterGroup.role == 'TEACHER'"
+		label="Actions"
+		[resetAfterSelect]="true"
+		[items]="options"
+		(onChange)="onOptionClick($event)">
+</option-select>
+
+<track-listing
+		[updateCounter]="updateCounter"
+		[chapterGroup]="chapterGroup"
+		(renameClick)="onRenameChapterGroup()"
+		(taskClick)="onTask($event)">
+</track-listing>

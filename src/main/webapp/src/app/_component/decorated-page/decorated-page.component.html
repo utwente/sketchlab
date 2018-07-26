@@ -1,0 +1,78 @@
+<div *ngIf="!hideAnonymousAnnoyBar && !menuExpanded && isAnonymous()" class="anonymous-bar">
+	<span>You are viewing a demo. To exit the demo and see your own work, please register or log in</span>
+</div>
+<nav *ngIf="menuExpanded" class="mobile-menubar-overlay">
+	<ul>
+		<li class="logo slanted" (click)="hideHamburger ? null : toggleHamburgerMenu($event)">
+			<fa *ngIf="!hideHamburger" name="bars"></fa>
+			<span class="sketchlab-logo-text"></span>
+		</li>
+		<li id="title">{{hamburgerMenuTitle}}</li>
+		<li id="close" (click)="toggleHamburgerMenu($event)">
+			<fa name="times"></fa>
+		</li>
+	</ul>
+</nav>
+
+<nav *ngIf="!menuExpanded" class="menu">
+	<ul role="menubar">
+		<li class="logo marker" id="sketchlab-logo" [routerLink]="['/']">
+			<span class="sketchlab-logo-text"></span>
+		</li>
+		<li class="logo slanted" id="sketchlab-logo-menu"
+			(click)="hideHamburger ? return : toggleHamburgerMenu($event)">
+			<fa *ngIf="!hideHamburger" name="bars"></fa>
+			<span class="sketchlab-logo-text"></span>
+		</li>
+
+		<li class="middle"></li>
+
+		<li [routerLink]="['/assignments']" [routerLinkActive]="['selected']">
+			<a>
+				<fa name="pencil"></fa>
+				<span class="collapsible">Assignments</span>
+			</a>
+		</li>
+		<li [routerLink]="['/groups']" [routerLinkActive]="['selected']">
+			<a>
+				<fa name="users"></fa>
+				<span class="collapsible">Groups</span>
+			</a>
+		</li>
+		<ng-container *ngIf="!isAnonymous(); else signUpLinks">
+			<li [routerLink]="['/users']" [routerLinkActive]="['selected']" *ngIf="isTeacher()">
+				<a>
+					<fa name="user-plus"></fa>
+					<span class="collapsible">Role Management</span>
+				</a>
+			</li>
+			<li [routerLink]="['/dashboard']" [routerLinkActive]="['selected']">
+				<a>
+					<fa name="user"></fa>
+					<span class="collapsible">{{user?.firstName}} {{user?.lastName}}</span>
+				</a>
+			</li>
+		</ng-container>
+	</ul>
+</nav>
+
+<main>
+	<ng-content></ng-content>
+</main>
+
+<page-footer></page-footer>
+
+<ng-template #signUpLinks>
+	<li [routerLink]="['/account/register']" [routerLinkActive]="['selected']">
+		<a>
+			<fa name="lock"></fa>
+			<span class="collapsible">Sign up</span>
+		</a>
+	</li>
+	<li [routerLink]="['/account/login']" [routerLinkActive]="['selected']">
+		<a>
+			<fa name="user"></fa>
+			<span class="collapsible">Sign in</span>
+		</a>
+	</li>
+</ng-template>

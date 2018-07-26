@@ -1,0 +1,20 @@
+<main>
+	<span class="label" *ngIf="!!label">{{label}}:</span>
+	<div class="options">
+		<div class="current" (click)="onClickDropdown($event)" *ngIf="!expanded">
+			{{selectedItem.label || 'Click me'}}
+			<fa name="caret-down"></fa>
+		</div>
+
+		<div [hidden]="!expanded">
+			<div class="dropdown">
+				<ul>
+					<li *ngFor="let item of items" [class.selected]="isSelected(item)"
+						(click)="onClickOption($event, item)">
+						<a>{{ item.label }}</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</main>

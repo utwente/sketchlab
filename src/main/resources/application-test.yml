@@ -1,0 +1,12 @@
+# Use an in-memory database for unit tests
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: 'jdbc:h2:mem:sketchlab;MODE=PostgreSQL;database_to_upper=false'
+    username: 'sa'
+    password: ''
+  jooq:
+    sql-dialect: h2
+
+# Include migrations from the dev folder to populate the in-memory database
+flyway.locations: classpath:db/migration/common, classpath:db/migration/hsql

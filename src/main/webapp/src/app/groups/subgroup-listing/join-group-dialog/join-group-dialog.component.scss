@@ -1,0 +1,28 @@
+@import "../../../../styles/variables";
+
+ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	li {
+		&:not(:last-child) {
+			margin-bottom: $page-segment-inner-spacing;
+		}
+
+		.button, .button-yellow {
+			width: 250px;
+			display: flex;
+			justify-content: space-between;
+
+
+			.full {
+				color: $accent-color-red;
+			}
+		}
+	}
+}

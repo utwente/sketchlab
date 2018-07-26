@@ -1,0 +1,68 @@
+@import "../../../styles/variables";
+
+.page-cover {
+	// Page cover sits behind the hamburger menu when it's expanded and darkens out the page
+	display: none;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 2;
+	background-color: $hamburger-shadow-color;
+
+	&.visible {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	cursor: zoom-out;
+	img {
+		max-width: 100%;
+		max-height: 100%;
+
+		&:hover {
+			cursor: zoom-out;
+		}
+	}
+
+	.close-button {
+		position: absolute;
+		padding: $page-segment-inner-spacing;
+		top: 0;
+		right: 0;
+		color: white;
+		font-size: $default-text-size-larger;
+		cursor: pointer;
+		opacity: 25%;
+	}
+}
+
+.thumbnail-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	.thumbnail {
+		max-width: 100%;
+		height: auto;
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}
+
+@media #{$breakpoint-only-phone} {
+	.thumbnail-wrapper {
+		.thumbnail {
+			&:hover {
+				cursor: default;
+			}
+			max-width: 100%;
+			height: auto;
+		}
+	}
+	.page-cover.visible {
+		display: none;
+	}
+}

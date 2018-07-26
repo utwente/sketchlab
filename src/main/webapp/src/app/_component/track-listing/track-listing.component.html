@@ -1,0 +1,85 @@
+<header class="chapter-title">
+	<span class="title" [class.editable]="chapterGroup.role == 'TEACHER'"
+		  (click)="clickChapterGroupName($event)">
+		{{chapterInRows.getLabel()}}
+	</span>
+	<br>
+	<span class="role" *ngIf="hasSpecialRole(chapterInRows.role)">
+		{{chapterInRows.role | humanifyEnum}}
+	</span>
+</header>
+
+<main *ngIf="!chapterInRows.empty; else noTasks">
+	<div *ngFor="let row of chapterInRows.rows; let i = index" class="track-row">
+		<ng-container
+				*ngTemplateOutlet="task;context:{index:i,task:row.BASICS.task,color:row.BASICS.color,track:'basics'}">
+		</ng-container>
+
+		<ng-container
+				*ngTemplateOutlet="task;context:{index:i,task:row.FORM.task,color:row.FORM.color,track:'form'}">
+		</ng-container>
+
+		<ng-container
+				*ngTemplateOutlet="task;context:{index:i,task:row.IDEATION.task,color:row.IDEATION.color,track:'ideation'}">
+		</ng-container>
+
+		<ng-container
+				*ngTemplateOutlet="task;context:{index:i,task:row.COMMUNICATION.task,color:row.COMMUNICATION.color,track:'communication'}">
+		</ng-container>
+
+
+		<ng-template #task let-task="task" let-color="color" let-track="track" let-index="index">
+			<div class="track-entry" [ngClass]="'track-' + track"
+				 [class.track-colored]="color.isTaskActive()" dnd-droppable
+				 [allowDrop]="canDropTask(task)"
+				 (onDropSuccess)="onDropTask($event, index, track)">
+
+				<div [ngClass]="getCssClassForColor(color)">
+					<div class="track-progress-color color-top"></div>
+					<div class="track-progress-color color-bottom"></div>
+				</div>
+
+				<!-- No task -->
+				<ng-container *ngIf="!task">
+					<!-- Display an add button if we're in edit mode -->
+					<div *ngIf="taskEditCallback" class="track-entry-item add-task"
+						 (click)="taskEditCallback.onAddTask(index, track.toUpperCase())">
+						<fa name="plus"></fa>
+						New task
+					</div>
+				</ng-container>
+
+				<!-- There is a task -->
+				<ng-container *ngIf="task">
+					<div class="track-entry-item task"
+						 (click)="taskClick.emit(task)">
+						<span dnd-draggable
+							  [dragData]="task"
+							  [dragEnabled]="taskEditCallback">
+							{{task.name}}
+						</span>
+
+						<fa *ngIf="taskEditCallback"
+							name="pencil"
+							(click)="taskEditCallback.onEditTask(task); $event.stopPropagation()">
+						</fa>
+
+						<fa *ngIf="taskEditCallback"
+							name="trash"
+							class="mat-icon material-icons"
+							role="img"
+							aria-hidden="true"
+							(click)="taskEditCallback.onDeleteTask(task); $event.stopPropagation()">
+						</fa>
+					</div>
+				</ng-container>
+			</div>
+		</ng-template>
+	</div>
+</main>
+
+<ng-template #noTasks>
+	<main>
+		<p class="empty-message">There are no tasks in this course</p>
+	</main>
+</ng-template>

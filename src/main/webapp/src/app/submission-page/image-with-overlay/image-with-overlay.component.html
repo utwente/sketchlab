@@ -1,0 +1,31 @@
+<div class="image-with-overlay">
+	<span id="annotation-anchor"></span>
+	<div class="toolbar" *ngIf="allowEditing">
+		<div class="button-group">
+			<button class="button variable-width" title="Undo last action" (click)="undoLastSegment()" [disabled]="isUndoDisabled">
+				<fa name="undo"></fa>
+			</button>
+			<button class="button variable-width" title="Redo last action" (click)="redoLastSegment()" [disabled]="isRedoDisabled">
+				<fa name="repeat"></fa>
+			</button>
+			<button class="button variable-width" [title]="isEraserActive ? 'Draw' : 'Erase'" (click)="toggleEraser()"
+					[ngClass]="{'active': isEraserActive}">
+				<fa name="eraser"></fa>
+			</button>
+			<button class="button variable-width" [colorPicker]="color" (colorPickerChange)="color = $event"
+					[style.color]="color"
+					title="Change color">
+				<fa name="paint-brush"></fa>
+			</button>
+			<label class="variable-width">
+				<span>Line width</span>
+				<input type="range" min="1" max="25" [value]="lineWidth" (change)="lineWidth = $event.target.value">
+			</label>
+		</div>
+	</div>
+	<div class="drawing">
+		<img [src]="submissionDataUrl" *ngIf="submissionDataUrl" (load)="resizeCanvas();">
+		<canvas #canvas (window:resize)="resizeCanvas();"
+				[ngClass]="{'edit': allowEditing}"></canvas>
+	</div>
+</div>

@@ -1,0 +1,18 @@
+<option-select *ngIf="!!filterEnrollments && !!filterEnrollments.length; else noEnrollments"
+			   (onChange)="showSubmissions($event)"
+			   [items]="filterEnrollments" label="Filter"></option-select>
+
+<paged-content *ngIf="!init && submissionsPage" [page]="submissionsPage"
+			   (onPageChange)="getSubmissions(
+					chapterGroup.chapterId,
+				 	chapterGroup.id,
+				 	user.id,
+				 	$event)">
+	<ng-template let-content>
+		<submission-list [submissions]="content" [showUser]="true"></submission-list>
+	</ng-template>
+</paged-content>
+
+<ng-template #noEnrollments>
+	<div class="info-message">No enrollments found.</div>
+</ng-template>

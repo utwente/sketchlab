@@ -1,0 +1,15 @@
+<decorated-page>
+	<main>
+		<tab-bar *ngIf="role == 'TEACHER'">
+			<li [routerLink]="['course-editions']" [routerLinkActive]="['selected']">
+				<a>Course Editions</a>
+			</li>
+			<li [routerLink]="['courses']" [routerLinkActive]="['selected']">
+				<a>Courses</a>
+			</li>
+		</tab-bar>
+		<div class="container">
+			<router-outlet></router-outlet>
+		</div>
+	</main>
+</decorated-page>

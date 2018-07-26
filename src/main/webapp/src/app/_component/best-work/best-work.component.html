@@ -1,0 +1,9 @@
+<ng-container *ngIf="submissions && submissions.length > 0; else noBestWork">
+	<submission-list [clickable]="false" [showUser]="true" [submissions]="submissions"
+					 [submissionType]="SubmissionType.BEST_WORK_SUBMISSION"></submission-list>
+</ng-container>
+<ng-template #noBestWork>
+	<p>
+		No best work found.
+	</p>
+</ng-template>

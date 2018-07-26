@@ -1,0 +1,15 @@
+<decorated-page>
+	<main>
+		<tab-bar>
+			<li [routerLink]="['role-management']" [routerLinkActive]="['selected']">
+				<a>Roles</a>
+			</li>
+			<li [routerLink]="['internal-user-management']" [routerLinkActive]="['selected']">
+				<a>Internal users</a>
+			</li>
+		</tab-bar>
+		<div class="content">
+			<router-outlet></router-outlet>
+		</div>
+	</main>
+</decorated-page>

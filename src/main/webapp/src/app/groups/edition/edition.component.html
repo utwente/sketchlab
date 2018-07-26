@@ -1,0 +1,12 @@
+<tab-bar>
+	<li [routerLink]="'work'" [routerLinkActive]="['selected']">
+		<a>Work</a>
+	</li>
+	<li [routerLink]="'members'" [routerLinkActive]="['selected']">
+		<a>Members</a>
+	</li>
+	<li [routerLink]="'enrollment'" [routerLinkActive]="['selected']" *ngIf="isTeacher()">
+		<a>User enrollment</a>
+	</li>
+</tab-bar>
+<router-outlet></router-outlet>

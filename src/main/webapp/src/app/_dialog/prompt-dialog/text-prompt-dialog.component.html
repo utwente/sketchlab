@@ -1,0 +1,15 @@
+<h1 *ngIf="!!title">{{title}}</h1>
+<p *ngIf="!!message">{{message}}</p>
+<form [formGroup]="promptForm" (ngSubmit)="submit()">
+	<input formControlName="prompt" [autofocus] (keyup)="tryValid()">
+
+	<section class="dialog-buttons">
+		<button class="button" type="button" (click)="cancel()">Cancel</button>
+		<button class="button-yellow" type="submit" [disabled]="!promptForm.valid">Apply</button>
+	</section>
+	<div *ngIf="promptForm.dirty && !promptForm.valid" class="error-message">
+		<ul>
+			<li *ngFor="let msg of errors">{{msg}}</li>
+		</ul>
+	</div>
+</form>

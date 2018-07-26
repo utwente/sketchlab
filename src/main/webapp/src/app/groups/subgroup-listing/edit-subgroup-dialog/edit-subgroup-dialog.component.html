@@ -1,0 +1,12 @@
+<h1 *ngIf="type">{{type}} group</h1>
+<form [formGroup]="createForm" (ngSubmit)="submit()">
+	<input formControlName="name" [autofocus] placeholder="Name">
+
+	<label><input type="checkbox" formControlName="enableSize" (change)="toggleGroupSize()">Set maximum group size</label>
+	<input formControlName="size" type="number" min="1" placeholder="Group size" [hidden]="!createForm.get('enableSize').value">
+
+	<section class="dialog-buttons">
+		<button class="button" type="button" (click)="cancel()">Cancel</button>
+		<button class="button-yellow" type="submit" [disabled]="!createForm.valid">Send</button>
+	</section>
+</form>

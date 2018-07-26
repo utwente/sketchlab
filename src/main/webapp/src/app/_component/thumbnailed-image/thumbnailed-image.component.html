@@ -1,0 +1,11 @@
+<div class="thumbnail-wrapper">
+	<img [src]="!!thumbnailSrc ? thumbnailSrc : src" [alt]="alt" title="Click to enlarge" (click)="click(); $event.stopPropagation()"
+		 class="thumbnail">
+
+	<div #cover class="page-cover" (click)="closeEnlargement(); $event.stopPropagation()" [ngClass]="{'visible': enlarged}">
+		<div class="close-button">
+			<fa name="times"></fa>
+		</div>
+		<img [src]="src" [alt]="" title="Click to zoom out">
+	</div>
+</div>

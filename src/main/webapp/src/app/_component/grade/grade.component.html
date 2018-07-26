@@ -1,0 +1,52 @@
+<ng-container *ngIf="!editable || (enrollment && enrollment.assistant); else editableGrade">
+	<div class="enrollment">
+		<section class="grade">
+			{{ !!enrollment.grade || enrollment.grade === 0 ? enrollment.grade : '-' }}
+		</section>
+		<header class="enrollment-info">
+			<h1>{{ enrollment.chapter.label }} / {{ enrollment.chapterGroup.name }}</h1>
+			<time>
+				{{ enrollment.gradedAt
+				? (enrollment.gradedAt | momentFormat:'DD-MM-YYYY, HH:mm')
+				: '' }}
+			</time>
+		</header>
+		<section class="grade-description"
+				 [innerHtml]="(enrollment.gradedAt ? (enrollment.gradeMessage ? enrollment.gradeMessage : '') : 'Not graded yet.') | MarkdownToHtml">
+		</section>
+	</div>
+</ng-container>
+<ng-template #editableGrade>
+	<form [formGroup]="gradeForm" (ngSubmit)="editGrade(); $event.stopPropagation();">
+		<div *ngIf="enrollment" class="enrollment">
+			<section class="grade">
+				<input formControlName="grade" name="grade" type="number"
+					   min="0" max="10" step="0.1">
+			</section>
+			<header class="enrollment-info">
+				<h1>{{ enrollment.chapter.label }} / {{ enrollment.chapterGroup.name }}</h1>
+				<time>
+					{{ enrollment.gradedAt
+					? (enrollment.gradedAt | momentFormat:'DD-MM-YYYY, HH:mm')
+					: '' }}
+				</time>
+			</header>
+			<section class="grade-description">
+				<textarea formControlName="message" name="message"></textarea>
+			</section>
+			<section class="grade-buttons">
+				<button class="button-yellow" type="submit" [disabled]="!gradeForm.valid">
+					Save
+				</button>
+				<button class="button" (click)="revertEdit(); $event.stopPropagation()">
+					Revert
+				</button>
+				<div>
+					<fa name="circle-o-notch" animation="spin" *ngIf="loading && !done"></fa>
+					<fa name="check" *ngIf="done && !loading"></fa>
+				</div>
+
+			</section>
+		</div>
+	</form>
+</ng-template>

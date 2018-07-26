@@ -1,0 +1,22 @@
+<h1>Yikes!</h1>
+<p>
+	Something seriously terrible has happened from which we cannot recover. Please try again by <a href="">reloading</a>
+	the page. If this keeps happening you might consider contacting this site's administrators
+	<a href="/contact">here</a>.
+</p>
+<ng-container *ngIf="!!message">
+	<button class="text-button with-icon advanced-button" (click)="toggleAdvancedInfo()">
+		<fa [name]="showAdvancedInfo ? 'caret-down' : 'caret-right'"></fa>
+		<span>{{showAdvancedInfo ? "Hide" : "Show"}} technical information</span>
+	</button>
+	<div class="advanced" [ngClass]="{'visible': showAdvancedInfo}">
+		<p><samp>{{message}}</samp></p>
+	</div>
+</ng-container>
+<section class="dialog-buttons">
+	<button class="button-black" (click)="reload()">
+		<fa name="refresh"></fa>
+		Reload
+	</button>
+	<button class="button-red" (click)="close()">Ok</button>
+</section>

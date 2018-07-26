@@ -1,0 +1,24 @@
+<h1>Add a course edition</h1>
+<form [formGroup]="form" (ngSubmit)="submit()">
+	<label>Provide a name for the course edition
+		<input formControlName="name" [autofocus]>
+	</label>
+
+	<label>Select a course
+		<select formControlName="chapter">
+			<option *ngFor="let chapter of chapters" [value]="chapter.id">{{chapter.label}}</option>
+		</select>
+	</label>
+
+	<br>
+
+	<section class="dialog-buttons">
+		<button class="button" type="button" (click)="cancel()">Cancel</button>
+		<button class="button-yellow" type="submit" [disabled]="!form.valid">Apply</button>
+	</section>
+	<div *ngIf="form.dirty && !form.valid" class="error-message">
+		<ul>
+			<li *ngFor="let error of getErrors()">{{error}}</li>
+		</ul>
+	</div>
+</form>

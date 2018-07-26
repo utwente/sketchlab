@@ -1,0 +1,75 @@
+<pop-up-page [pageTitle]="submission ? submission.task.name : ''">
+	<div class="content" *ngIf="submission; else alternative">
+		<header>
+			<h1>{{submission.task.name}}</h1>
+			<p>
+				by <a [routerLink]="getUserLink(submission.user)">{{generateFullName(submission.user)}}</a>
+				on {{submission.createdAt | momentFormat}}
+			</p>
+		</header>
+
+		<div class="votes">
+			<submission-like [submission]="submission" [includeText]="true"></submission-like>
+			<mark-best-work [submission]="submission" [includeText]="true"></mark-best-work>
+			<button class="text-button with-icon" *ngIf="isTeacher || isOwner"
+					(click)="deleteSubmission()"
+					title="Delete work">
+				<fa name="trash"></fa>
+				<span>
+					Delete this work
+				</span>
+			</button>
+		</div>
+
+		<div class="transform-options" *ngIf="(isTeacher || isOwner) && !allowEditing">
+			Transform work
+			<option-select [items]="rotateOptions"
+						   (onChange)="transformSubmission($event)"></option-select>
+		</div>
+
+		<div class="submission">
+			<image-with-overlay [submissionDataUrl]="submissionDataUrl"
+								[annotation]="selectedAnnotation"
+								[allowEditing]="allowEditing">
+			</image-with-overlay>
+		</div>
+
+		<div *ngIf="!isAnonymous" class="create-comment">
+			<div class="annotation-button">
+				<button class="text-button" href="#annotation-anchor" pageScroll
+						[routerLink]="createDrawingRouterLink()"
+						[disabled]="allowEditing" (click)="setAnnotating(true)">
+					<fa name="pencil"></fa>
+					Add new visual feedback
+				</button>
+			</div>
+			<div class="avatar">
+				<avatar [user]="loggedInUser" [size]="48"></avatar>
+			</div>
+			<div class="text-comment">
+				<form #newCommentForm="ngForm" (ngSubmit)="submitNewAnnotation(newCommentForm)">
+					<textarea name="textComment" [(ngModel)]="textComment"></textarea>
+					<button type="submit" class="button"
+							[disabled]="!formValid">
+						Submit
+					</button>
+				</form>
+			</div>
+
+		</div>
+		<hr>
+		<div class="comments">
+			<submission-comments [submission]="submission" [annotations]="annotations"
+								 [selectedAnnotationId]="selectedAnnotation ? selectedAnnotation.id : 0"
+								 (onDoReload)="reloadContent()">
+			</submission-comments>
+		</div>
+	</div>
+</pop-up-page>
+
+<ng-template #alternative>
+	<div class="content">
+		<loading-spinner *ngIf="loading"></loading-spinner>
+		<p *ngIf="error" class="info-message">Work with the given parameters was not found.</p>
+	</div>
+</ng-template>

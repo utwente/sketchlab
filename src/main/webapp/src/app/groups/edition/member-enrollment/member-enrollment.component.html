@@ -1,0 +1,102 @@
+<div class="content-wrapper">
+	<accordion>
+		<accordion-item itemTitle="Manual enrollment" [showIcons]="true">
+			<div class="search-box">
+				<user-search (onResult)="setFoundUsers($event)"></user-search>
+			</div>
+			<table>
+				<tr>
+					<th class="student-id">Friendly ID</th>
+					<th>First name</th>
+					<th>Last name</th>
+					<th class="enrollment-box">Enrolled</th>
+					<th class="ta-box">Teaching assistant</th>
+				</tr>
+				<tr *ngFor="let user of foundUsers">
+					<ng-container *ngVar="getEnrolledUser(user) as enrolledUser">
+						<td class="student-id">{{user.friendlyId}}</td>
+						<td>{{user.firstName}}</td>
+						<td>{{user.lastName}}</td>
+						<td class="enrollment-box">
+							<input type="checkbox" [checked]="!!enrolledUser"
+								   (change)="toggleEnrollment(user)">
+						</td>
+						<td class="ta-box">
+							<input type="checkbox" [disabled]="!enrolledUser"
+								   (change)="toggleAssistant(user)"
+								   [checked]="enrolledUser && enrolledUser.enrollment.assistant">
+						</td>
+					</ng-container>
+				</tr>
+			</table>
+		</accordion-item>
+		<accordion-item itemTitle="Batch import" [active]="true" [showIcons]="true">
+			<p>
+				Enrolling new users into a course edition is fastest by batch importing a CSV file.
+				Please make sure your CSV file has the following layout:
+			</p>
+			<pre>
+  &quot;Student Number&quot;{{delimiter}}&quot;Course Role&quot;
+  &quot;&lt;friendly id&gt;&quot;{{delimiter}}&quot;&lt;student/ta&gt;&quot;
+</pre>
+			<p>For instance:</p>
+			<pre>
+  &quot;Student Number&quot;{{delimiter}}&quot;Course Role&quot;
+  &quot;s1234567&quot;{{delimiter}}&quot;student&quot;
+  &quot;internal_email@example.com&quot;{{delimiter}}&quot;student&quot;
+  &quot;s1234568&quot;{{delimiter}}&quot;ta&quot;
+</pre>
+			<p>
+				Entries for which the TA field is missing are considered to be student
+				enrollments.
+			</p>
+			<p>
+				Please make sure that when the <em>Student Number</em> column contains email
+				addresses, these email addresses do belong to non-UT users, otherwise they will not
+				be enrolled.
+			</p>
+			<p>
+				Furthermore, users with the teacher role are never enrolled, as they have access to
+				all content anyhow.
+			</p>
+
+			<div class="csv-upload" *ngIf="chapterId && chapterGroupId">
+				<form #batchUpload="ngForm" (ngSubmit)="doUpload()">
+					<file-upload
+							[uploadOnFileDrop]="false"
+							[uploadUrl]="getCsvUploadUrl()"
+							[allowedDataTypes]="[
+							'.csv',
+							'text/csv',
+							'application/csv',
+							'text/plain',
+							'text/x-csv'
+						]"
+							[data]="{'delimiter': delimiter}" fileName="csvFile"
+							(onUploaded)="onUploaded($event)"
+							(onError)="onError($event)"
+							#fileUpload>
+					</file-upload>
+					<label>Value delimiter:
+						<select [(ngModel)]="delimiter" name="delimiter">
+							<option selected>,</option>
+							<option>;</option>
+						</select>
+					</label>
+					<button class="button-yellow" type="submit">
+						Upload CSV file
+					</button>
+				</form>
+			</div>
+		</accordion-item>
+		<accordion-item itemTitle="Batch export" [showIcons]="true">
+			<p>Using this function, you can export all enrollment data for the current course and
+				course edition. This
+				export contains the enrolled users and their grades and teaching assistant status.
+				This export can then
+				be used to import into, for example, Microsoft Excel.
+			</p>
+			<a [href]="getCsvDownloadUrl()" download="data.csv" class="button-black">Export data</a>
+		</accordion-item>
+	</accordion>
+</div>

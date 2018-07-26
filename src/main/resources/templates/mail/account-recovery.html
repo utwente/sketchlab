@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<h1>Sketchlab Account Recovery</h1>
+<p>Hello <th:block th:text="${user.firstName}"/>,<br/>
+you are receiving this email because someone triggered the account recovery options for your Sketchlab account.
+</p>
+
+<p>Your password has been reset</p>
+<p>New password: <b th:text="${password}"></b></p>
+
+<br/>
+<p>
+Please make sure that you enjoy your new password thoroughly, as chances are it's one-of-a-kind.<br/>
+If you do not enjoy your new password to this extend, you can also change it online.
+</p>
+
+<p>
+Happy sketching,<br/>
+The Sketchlab mail service
+</p>
+
+</body>
+</html>

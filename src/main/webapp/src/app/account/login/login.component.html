@@ -1,0 +1,36 @@
+<div class="content-wrapper">
+	<h1>Welcome back to Sketchlab</h1>
+	<h2>The best place to learn design sketching</h2>
+
+	<ng-container *ngIf="!loggingIn; else loading">
+		<div>
+			<button class="button-yellow" routerLink="/">Try For Free</button>
+		</div>
+		<div>
+			<a class="button-black" href="/sso" tabindex="1">Use UT Credentials</a>
+		</div>
+		<div><p>OR</p></div>
+		<div><p class="error-message" *ngIf="invalidCredentials">No user found with the given credentials.</p></div>
+		<form #loginForm="ngForm" (ngSubmit)="login(); $event.stopPropagation()">
+			<div>
+				<input [(ngModel)]="loginDto.email" placeholder="Email address" type="email" name="email" required email
+					   #email="ngModel" minlength="8" tabindex="2"></div>
+			<div>
+				<input [(ngModel)]="loginDto.password" placeholder="Password" type="password" name="password" required
+					   #password="ngModel" tabindex="3">
+			</div>
+			<div>
+				<button type="submit" class="button" [disabled]="email.invalid || password.invalid" tabindex="4">Login</button>
+			</div>
+		</form>
+		<div><a routerLink="/account/password-reset" tabindex="5">Reset password</a></div>
+		<div><p>OR</p></div>
+		<div>
+			<button class="button" routerLink="/account/register" tabindex="6">Register</button>
+		</div>
+	</ng-container>
+</div>
+
+<ng-template #loading>
+	<loading-spinner></loading-spinner>
+</ng-template>

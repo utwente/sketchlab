@@ -1,0 +1,114 @@
+@import "../../styles/variables";
+
+.content {
+	@include page-segment;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+
+
+	& > * {
+		margin-bottom: $page-segment-inner-spacing;
+	}
+
+	header {
+		h1, p {
+			margin: 0;
+		}
+
+		h1 {
+			font-weight: normal;
+			font-size: $default-text-size-larger;
+		}
+
+		p {
+			color: $default-text-color-lighter;
+
+			a, a:visited {
+				color: $default-text-color;
+				text-decoration: none;
+
+				&:hover, &:active {
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+
+	.votes {
+		display: flex;
+		font-size: $default-text-size-large;
+		align-items: center;
+		& > *:not(:last-child) {
+			margin-right: $page-segment-inner-spacing;
+		}
+		::ng-deep {
+			* {
+				color: $accent-color;
+			}
+		}
+	}
+
+	.transform-options {
+		display: flex;
+		align-items: center;
+	}
+	.submission {
+		width: 75%;
+		max-height: 95vh;
+		align-self: center;
+	}
+
+	hr {
+		margin-left: -$page-segment-inner-spacing;
+		margin-right: -$page-segment-inner-spacing;
+		height: 2px;
+		background: none;
+		border: none;
+		@include tabbar-bottom-border;
+	}
+
+	.create-comment {
+		display: grid;
+		max-width: 50%;
+		grid-template-columns: min-content auto;
+
+		.annotation-button {
+			grid-row-start: 1;
+			grid-column-start: 2;
+			padding: $page-segment-inner-spacing 0;
+		}
+		.avatar {
+			grid-row-start: 2;
+			grid-column-start: 1;
+			padding: 0 $page-segment-inner-spacing;
+		}
+
+		.text-comment {
+			grid-column-start: 2;
+			grid-row-start: 2;
+		}
+	}
+}
+
+@media #{$breakpoint-phone-and-tablet} {
+	.content {
+		.submission {
+			width: 100%;
+		}
+
+		.create-comment {
+			max-width: 100%;
+		}
+	}
+}
+
+@media #{$breakpoint-only-phone} {
+	.content {
+		.create-comment {
+			.avatar {
+				display: none;
+			}
+		}
+	}
+}

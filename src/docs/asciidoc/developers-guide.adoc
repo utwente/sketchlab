@@ -1,0 +1,348 @@
+= Sketchlab Developers Guide
+v1.0
+:imagesdir: assets
+:source-highlighter: coderay
+:toc: left
+:toclevels: 4
+:icons: font
+
+== Introduction
+This document serves to aid the further development of Sketchlab. This documentation approaches Sketchlab from a technical perspective and assumes its audience is famililar with the technologies on which Sketchlab is built (mainly Spring Boot, Angular, Maven and npm).
+
+Sketchlab was developed for the University of Twente to serve as a platform for building sketching courses where other educational tools fall short. Specifically, students can see and comment on each others work before they did the assignment themselves, which is typically not allowed in existing tools.
+
+Sketchlab is a Spring Boot/Java (backend) + Angular/Typescript (frontend) application, using REST as a communication layer between the two. Authentication is done either by the University of Twente Single Sign On (SSO) proxy server or by logging in with a username + password combination. All data is stored in an SQL database (PostgreSQL is used at the University of Twente, but it should also work on other SQL databases).
+
+WARNING: Do not deploy Sketchlab unaltered without a proxy server, as without an authenticating proxy server it is trivial for a client to send the right header and login as any user. More details in the <<Security>> section.
+
+== Compiling and running
+=== Compiling Sketchlab
+Sketchlab can be compiled very easily with Maven. It uses a Maven wrapper (`mvnw`) to download an appropriate version of Maven which in turn downloads all the dependencies. This means that the only dependency is an installation of the Java 8. To compile Sketchlab, run the following command in the root of the project:
+```shell
+$PROJECT_ROOT$ ./mvnw clean package
+```
+When this process completes, `sketchlab-$VERSION.jar` can be found as a binary in the `target` directory.
+
+=== Running Sketchlab
+==== Runtime dependencies
+Sketchlab generates a "fat JAR" by default, containing all libraries required by the application (as is common for Spring Boot applications). At runtime, the following dependencies are required:
+
+* Java 8 (Both Oracle JDK and OpenJDK work). Note that versions other than version 8 do not work due to a dependency on Project Lombok which specifically works with Java 8.
+* PostgreSQL 9. 9.5 was used during development, other versions should work as well.
+
+==== Running Sketchlab
+Running Sketchlab is as simple as starting the JAR (`java -jar sketchlab-$VERSION.jar`). It will read its settings from an `application.yml` configuration file that should be present next to the JAR. The production configuration file is available in the `server/` directory, together with documentation about how the server at the UT was setup.
+
+== Development setup
+=== Developing Sketchlab
+Even though running the above command (`./mvnw clean package`) produces a runnable Sketchlab artifact, it is far from ideal in the sense that it takes way too long to build to quickly and efficiently develop Sketchlab with. As such, during development, Sketchlab can also be launched from an IDE. Additionally, an embedded in-memory H2 database can be used instead of PostgreSQL which is initialized with demo data, which means that besides Java no external dependencies or configuration is required to run Sketchlab. This configuration is automatically used when starting Sketchlab directly in the `$PROJECT_ROOT` folder, due to the `application.yml` which sits in this folder. Configuration and the different profiles are discussed later.
+
+=== Launching Sketchlab in development mode
+It is possible to compile-and-launch Sketchlab with a single command with Maven. Simply run
+```shell
+$PROJECT_ROOT$ ./mvnw spring-boot:run
+```
+
+This will launch Sketchlab and use the `application.yml` file which is in the project root, which causes it to launch in development mode. The configuration makes it launch with a `dev` profile (profiles are discussed later in more detail), which makes it use an embeddded database preloaded with demo data. It will bind to port `8080`, and it will not serve a front-end (unlike the production JAR). As such, to effectively develop Sketchlab, you must launch the front-end separately.
+
+This doesn't however let you benefit from Spring Boot and Angular features like runtime class swapping and automatic reloading of the front-end when a code change is detected. Also, it is not possible to attach a debugger easily, but Sketchlab can also be launched from an IDE.
+
+=== Launching the backend
+The backend can be launched from within an IDE by importing the project as a Maven project, and simply launching the `main` method in the `nl.javalon.sketchlab.SketchlabApplication` class. This will also launch Sketchlab in development mode by using the `application.yml` file in the project root.
+
+=== Launching the front end
+Launching the front end can best be done by using `ng` - the Angular CLI. It is ideal to use the supplied `npmw` and `npxw` scripts to run all nodejs-based commands. This is to overcome the issue where different NodeJS versions will lead to NPM rejecting the `node_modules` folder when mixing the two, without a clear error. The `npmw` and `npxw` scripts will use the local NodeJS installation, as generated by Maven. Note that these scripts will also download and install NodeJS and NPM locally when these are not present yet.
+
+To execute commands using the Angular CLI, run `./npxw ng <arguments>`, this will ensure the local installation of Angular CLI is used.
+
+The front end is in its entirety located in `src/main/webapp`, for convenience, several NPM run-scripts have been defined to start and build the frontend. To start the frontend locally, execute:
+```shell
+$PROJECT_ROOT/src/main/webapp$ ./npmw run-script start-local
+```
+This will specify a proxy configuration. By specifying a proxy configuration, the backend can be reached at the same host as the front end which means that no special CORS setup is needed, while still getting all the benefits from automatic reloading that Angular CLI can offer. To run without a proxy configuration run:
+```shell
+$PROJECT_ROOT/src/main/webapp$ ./npmw run-script start
+```
+The full commands, using AngularCLI, can be found in `package.json`, under "`scripts`".
+
+The whole application can now be reached at `localhost:4200`.
+
+=== Building the front end individually
+Compiling the whole Sketchlab project also builds frontend. Therefore, it should not be necessary to compile the frontend seperately. However, seperate builds are possible through AngularCLI.
+
+If AngularCLI is present on the system, the frontend can be compiled as follows:
+```shell
+$PROJECT_ROOT/src/main/webapp$ ./npmw run-script build
+```
+
+If AngularCLI is not present, first make sure NPM is available (either through a Maven compile or manual install). Then, go to the frontend project root (`$PROJECT_ROOT/src/main/webapp`) and execute `./npmw install` to install all dependencies, this will also install AngularCLI, as this is a dev dependency. The frontend can then be compiled using:
+```shell
+$PROJECT_ROOT/src/main/webapp$ ./npmw run-script build
+```
+
+== Build setup
+=== Versioning
+Sketchlab automatically determines it's build version by parsing the git log. This is done by JGit, which means a local git installation is not required. It is, however, required to have the `.git` folder present in the project root to get a meaningful build version on runtime.
+
+=== NPM/Node management
+Sketchlab uses AngularCLI, which is a cli tool to build the frontend. AngularCLI depends on NodeJS and NPM. Due to the frontend-maven-plugin it is not necessary to have these commands present during compilation, as these are downloaded during the build process. After the project is compiled the first time, `node` and `npm` are downloaded to, respectively, `<project-root>/target/node` and `<project-root>/target/node/node_modules/npm`. NPM is then available through the `$PROJECT_ROOT/src/main/webapp/npmw`.
+
+== Profiles
+As mentioned, development is done under a different Spring _profile_, which uses a different database and sets various options slightly differently. It is assumed you are familiar with how Spring Boot loads configuration and which properties are available.
+
+Sketchlab has it's own base configuration, which can be found in `src/main/resources/application.yml`. Any property in this file can be overridden by placing an `application.yml` file in the folder from which Sketchlab is launched. This also includes some Sketchlab-specific properties. Spring supports both yaml (`yml`) and `properties` file formats for configuration. In this paragraph, we will always use yaml as a format in the examples.
+
+TIP: A full list of Springs application.yml properties can be found https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html[here]. Note that most do not apply to Sketchlab, as Sketchlab does not use every single capability of Spring.
+
+Sketchlab has two profiles, which shouldn't both be active at the same time:
+
+- dev (for development), with additional base properties in `application-dev.yml`
+- prod (for production)
+- test (for unit tests), which is unused as there are no automated tests
+
+These two profiles each include their own base configurations, and can be triggered in a variety of ways. The best way to set a profile is to put an `application.yml` file in the location the Sketchlab JAR is launched from, and set:
+```yml
+spring:
+  profiles:
+    active: dev
+```
+Replace `dev` with `prod` if you wish to use the `prod` profile.
+
+IMPORTANT: It is not possible to override profile-specific configurations from a `application.yml` file next to the JAR. The configuration _should_ be organized in a way that this is not necessary, but if you must, you can do so by adding an `application-$profile.yml` file (replacing `$profile` with your chosen profile) next to the JAR to override these properties.
+
+The `prod` profile does not specify any additional properties, meaning that it always relies on having an external configuration file to select which database driver and JDBC url must be used. The production configuration Sketchlab used at the University of Twente can be found in `$PROJECT_ROOT/server/application.yml`.
+
+
+== Databases
+Sketchlab includes both the JDBC drivers for PostgreSQL and H2. Depending on the profile used (See <<Profiles>>) and what is specified in the configuration, Sketchlab can use either one of them. Although Sketchlab is not married to either database, it was only run in production under PostgreSQL.
+
+Data access is managed by jOOQ (_Java Object Oriented Query_), which is a low-level type-safe library for accessing SQL databases. Sketchlab uses the community edition of jOOQ which only supports open-source databases. Additionally, jOOQ performs code-generation based on the schema, which is done at compile time. These classes _should_ be compatible with any SQL database, but were generated against an H2 database running in PostgreSQL compatibility mode and may not work on every SQL implementation. More details on this later in <<jOOQ>>.
+
+TIP: If you intend to run Sketchlab on another database, make sure the JDBC driver is available. The easiest way to do is, is to just add it to the pom and rebuild Sketchlab. However, a new JDBC driver could even be added to the classpath on startup with `java -classpath ...`
+
+=== Production - PostgreSQL
+When using the server configuration put in `server/application.yml`, the "prod" will be started and Sketchlab will use PostgreSQL as it's database due to the JDBC url. The login information has to be specified through several application properties which can also be found in `server/application.yml`.
+
+=== Development - H2
+When using the "dev" profile, Sketchlab will use an embedded H2 database. H2 is an SQL database implemented in Java which makes it ideal for developing Java applications. It's populated with data from `src/main/resources/migration-dev/V100__Testdata.sql` by <<Flyway>> (discussed later). Therefore, it is ideal to use during development as all changes are reverted upon restarting the application. Since H2 is part of the Sketchlab build process it is not necessary to set up anything to make it work. Additionally, H2 sets up it's own management servlet at `localhost:8080/h2-console` where the data in the database can be viewed and queries can be ran against it. If you use h2-console, make sure you log in with the exact credentials from the `src/main/resources/application-dev.yml` file, including the JDBC url, as H2 will just make a new in-memory database if you provide a valid but different JDBC url.
+
+=== jOOQ
+jOOQ is used as the data access layer between Sketchlab and the database. As mentioned, jOOQ is substantially more low-level than for instance Hibernate. jOOQ was chosen as it gives much greater control over the database, and an application like Sketchlab sometimes needs some fairly complex queries which simply know no equivalent in the Hibernate world. jOOQ is _database first_, meaning that instead of mapping Java classes to database tables, it maps database tables to Java classes. As such, it also uses a code generator.
+
+==== jOOQ Code Generation
+Via the `jooq-codegen-maven` build plugin, jOOQ can, at compile time, generate various classes derived from the database schema. The code generation happens in the `generate-sources` Maven lifecycle phase. jOOQ requires a database to operate against, and for this H2 is used once again. The `flyway-maven-plugin` is used to take all the DDL scripts and create a complete H2 database from this, which is then provided to `jooq-codegen-maven` to work its code generation magic from. jOOQ generates three categories of classes:
+
+- POJOs, one for each table. A POJO represents a row in the table (a single entry).
+- Records, one for each table. These are similar to the POJOs but keep a database connection and can be "saved"
+- Data Access Objects (DTOs) to create/read/update/delete POJOs into tables.
+
+Within Sketchlab itself only the POJOs are allowed to escape from the database layer, as the records hold a database connection and may lead to undesired behavior.
+
+=== Flyway
+To support database migrations, Sketchlab uses Flyway. Flyway is a database migrations tool, supporting incremental migrations based on version numbers. Flyway is also used to prepare a database during compilation for code generation to work with (See <<jOOQ Code Generation>>). This means that when the application is compiled, a H2 database is started and initalized with the database schema, after which jOOQ will do it's thing.
+
+When running the application, Flyway will check if the database with the given credentials and run it's migration scripts when necessary. It will update the version of the database in a special Flyway-managed table and include the hash of the migration that was applied. Note that this means that once a migration script is performed on the database, it is no longer possible to edit that specific migration script, and a new migration script is needed. While this also applies to the H2 database, this database is recreated every time the application is restarted, therefore, permitting edits to the script as long as no new version of Sketchlab has been deployed.
+
+== Security
+=== Authentication
+As mentioned earlier, Sketchlab is designed to run behind the University of Twente Single Sign On (SSO) proxy server, and relies on this server to perform the authentication of users and communicate the identity of the current user to Sketchlab via a header (`OAM_REMOTE_USER`). Sketchlab also has it's own user authentication system for "external" (external to the University, but internal to Sketchlab) users. These users are authenticated by an email address + password combination.
+
+==== SSO users and provisioning
+When Sketchlab detects that the `SSO_REMOTE_USER` header is set, and no user is currently logged in, it will attempt to find the user with the id specified in the header in the `utwente_user` table. Sketchlab uses its own user ids (these are UUIDs), and this table serves as a mapping to map UT user ids to internal user ids. When a matching user is found the user is set as logged in.
+
+The proxy server does not communicate other information (like the users name or email address) to Sketchlab. This data is _provisioned_ and inserted in to the production database externally. When running with the production configuration (see <<Production - PostgreSQL>>), an extra DDL script is executed by Flyway located in `src/main/resources/migrations/postgresql`. This script makes the `utwente_user_view` available. This is a database view with associated triggers to automatically convert utwente users to Sketchlab users (generate a UUID for them) as they are inserted into the view by an external application. Note that this script is highly specific to PostgreSQL and will need retooling to work on another database engine.
+
+==== Internal user authentication
+Internal users are authenticated with an email address and a password. Sketchlab stores these passwords in the `internal_user` table (as to Sketchlab, these users are _internal_). The passwords are hashed and salted with bcrypt (the hash and salt are concatinated into a single string with bcrypt). Users can sign up, validate their email address by means of a confirmation email and then log into Sketchlab.
+
+=== Permissions and roles
+Sketchlab has three system-wide roles of which every account has one:
+
+- Teacher
+- Student
+- Anonymous
+
+Sketchlab manages these roles by itself, and they are in no way provided or derived from external data (for instance, having a University of Twente teacher account does not make you a teacher within Sketchlab). The default role for new accounts (either created via registration or via UT account provisioning) are always a student.
+
+==== Teacher role
+A teacher is the most powerful role within the application. A teacher can do _everything_, and is the only role who can create courses and course editions. Note that since the teacher role is a global role, it is not possible to restrict in which courses a teacher is a teacher. This is a current limitation of Sketchlab.
+
+==== Student role
+The student role, by default, can do nothing. When a student who is not enrolled into anything logs into Sketchlab, they will be faced with an empty assignments view, empty dashboard and empty group list. Students have to be enrolled into _course editions_ before they can start viewing assignments, submitting work, and discussing each others submissions.
+
+===== Teaching Assistants
+Students can also be enrolled into a course edition as _Teaching Assistants_ (TAs). This gives them a slightly different view and marks them as _Teaching Assistant_ behind their name. Unlike teachers, teaching assistants _are_ a context-dependent role. A user can be a student in one course edition and be a teaching assistant in the next, but if a user is a teacher anywhere, they are a teacher everywhere.
+
+==== Anonymous role
+Finally, there's a role a user gets assigned when the user is not logged in. The anonymous user role is a subset of the student role, and _exists in the database_. The anonymous user can be enrolled into course editions just like students, and this effectively "opens up" that course edition to the world to see. The anonymous user cannot make changes to anything. They cannot upload work, they cannot make comments and they cannot like the work of others. But, in every other way, they are identical to students.
+
+The anonymous user offers a powerful utility to teachers to exactly dictate how unregistered users experience Sketchlab, and offers a way to design an interesting demo without requiring visitors to create an account.
+
+==== Endpoint security
+Endpoints are secured with MVC matchers specified in `nl.javalon.sketchlab.config.SecurityConfig`. Note how here a distinction is made between users in a course, and users in a course edition. This is because when a user is enrolled in a particular course edition, they still need access to material provided in the course. As such, there is a mechanism for giving access to users who are a member of at least one course edition for a particular course.
+
+
+== Server configuration
+WARNING: Since Sketchlab is no longer running like this, and there are many different ways to run Sketchlab, this section only serves as an indication of how Sketchlab _could be deployed_.
+
+To view the server configuration, including scripts that were used when Sketchlab was deployed, please take a look at the
+`$PROJECT_ROOT/server` directory, specifically at `Management.md`. Sketchlab was setup using systemd on an
+Ubuntu 16.04 machine against a local PostgreSQL installation.
+
+== Data model
+[[data_model]]
+.Entity Relation Diagram
+image::database_entity_summary.png[]
+
+In the <<data_model>> above we can see the most important tables in the Sketchlab data model.
+
+TIP: To view all tables generate an ER diagram from `src/main/resources/db/migrations/common`
+or from the H2 database which is generated at compile time for jOOQ: `target/maven-sketchlab.dv.mv.db`.
+
+Some important things to note from this diagram:
+
+=== Chapters and chapter groups
+* Tasks are attached to a chapter ("course" in the interface)
+* Students are not enrolled into a chapter, but instead into a _chapter_edition_ ("course edition" in the interface)
+** Part of the _enrollment_ join table is also a field _grade_: students get only one grade based on all their submissions within the chapter group
+** Part of the _enrollment_ table is also a field _assistant_: this marks the student as a teaching assistant within that chapter group
+* Chapter groups are further divided into subgroups.
+
+The distinction between chapter and chapter groups is very important to realize. Only teachers can read/update/delete chapters,
+and students have only limited access to read resources (tasks) in them. Students can always only write to
+a chapter group. Deleting a chapter group would delete all work done by the students participating in them, and multiple
+chapter groups could be setup from the same chapter allowing two groups to work with the same material in complete
+isolation from eachother (for instance, one could have the anonymous user).
+
+=== Submissions
+* Submissions link directly to an enrollment. Since teachers have no enrollment, teachers cannot submit things
+(teachers can however make example submissions which are part of a task, and not shown here)
+** Annotations can be made by teachers, as they only link to the submission and the user
+* Questions are _not_ linked to an enrollment, but instead to a user and chapter group. This enables
+teachers to create questions themselves, although _this is not possible in the front end at this time_.
+* Submissions are not in any way attached to a subgroup. Submissions are uploaded directly into the chapter group for
+every member to see. Within the interface, subgroups can be used to view a subset of submissions generated by those in the subgroup.
+* There is no distinction between feedback with annotation and without - they are the same entity.
+
+=== Users
+* Every user in the system (including the anonymous user) must have an entry in the _user_ table.
+* Extra data for particular user types (_internal_user_ or _utwente_user_) is stored in join tables.
+* (Not shown here): for utwente data provisioning there is a special table. Read more about this table in
+<<SSO users and provisioning>>.
+
+
+
+
+
+
+
+== Source code
+=== Backend - Code structure
+
+[source]
+----
+.
+└── nl
+    └── javalon
+        └── sketchlab
+            ├── config
+            |   └──> Contains Spring config, including Tomcat config
+            |        (when using the embedded Tomcat webserver), Swagger
+            |        API documentation config, SSO redirection config,
+            |        config for jOOQ. Furthermore, it contains all API
+            |        authorisations in the form of Spring's mvcMatchers.
+            ├── controller
+            |   └──> Contains Spring controllers, necessary for
+            |        redirecting regular page requests. Includes a
+            |        redirect to the root for all non-API 404 links
+            |        (necessary for Angular), a redirect for SSO links
+            |        and a redirect for Swagger API documentation.
+            ├── dao
+            │   └──> Location for DAO classes. The link between
+            |        database and model. Most classes in this package
+            |        are extensions of generated jOOQ DAOs.
+            ├── dto
+            │   └──> Contains all DTO classes, which are used for REST
+            |        requests and responses.
+            ├── exception
+            │   └──> Contains all Spring response exceptions. Spring
+            |        will use the error message and the accompanying
+            |        HTTP response status annotation to generate an
+            |        error message.
+            ├── resource
+            │   └──> All REST API endpoints.
+            ├── security
+            |   └──> All security related classes. Contains the
+            |        authentication providers.
+            ├── service
+            |   └──> All non HTTP services needed in Sketchlab,
+            |        containing services for parsing and generating CSV
+            |        files, reading and writing from and to files,
+            |        transforming images, mail capabilities and such.
+            ├── SketchlabApplication.java
+            └── utils
+                └──> Utility classes and functions are located here.
+----
+
+=== Frontend - Code structure
+[source]
+----
+.
+├── app
+│   ├── account
+│   │   └──> Account pages, containing login, register, password reset
+|   |        and account activate pages.
+│   ├── app.component.ts
+│   ├── app.config.ts
+│   ├── app.module.ts
+│   ├── app-routing.module.ts
+│   ├── assignments
+│   │   └──> The assignments page.
+│   ├── _component
+│   │   └──> All shared components.
+│   ├── dashboard
+│   │   └──> The dashboard page.
+│   ├── _dialog
+│   │   └──> All general purpose dialogs.
+│   ├── _directive
+│   │   └──> All shared directives.
+│   ├── _dto
+│   │   └──> All shared DTOs, coherence with the backend's Java DTOs is
+|   |        present, mostly.
+│   ├── error
+│   │   └──> The global error handler classes.
+│   ├── groups
+│   │   └──> Subgroups page.
+│   ├── _guard
+│   │   └──> All routing guards.
+│   ├── landing
+│   │   └──> Landing page.
+│   ├── _pipe
+│   │   └──> All shared pipes.
+│   ├── _service
+│   │   └──> All services, the coherence with backend's Java resources
+|   |        is kept, mostly.
+│   ├── static-pages
+│   │   └──> All static pages.
+│   ├── submission-page
+│   │   └──> Submission viewer page.
+│   ├── task
+│   │   └──> Task page.
+│   ├── user-management
+│   │   └──> User management page.
+│   ├── utils
+│   │   └──> Some utility classes.
+│   └── _validator
+│       └──> Common validators.
+├── assets
+│   └──> Binary assets in the form of images etc.
+├── environments
+│   └──> Run environments, production and development.
+├── index.html
+├── main.ts
+├── polyfills.ts
+├── styles
+│   └──> Common CSS styles.
+├── styles.scss
+└── tsconfig.json
+----

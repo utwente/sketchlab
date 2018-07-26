@@ -1,0 +1,29 @@
+<ng-container *ngIf="submissions; else loading">
+	<div class="content-wrapper">
+		<ng-container *ngIf="submissions.length > 0; else empty">
+			<div class="submission-wrapper"
+				 *ngFor="let submission of submissions"
+				 [ngSwitch]="submissionType">
+				<submission
+						*ngSwitchCase="SubmissionType.REGULAR_SUBMISSION"
+						[submission]="submission"
+						[clickable]="clickable"
+						[includeOwner]="showUser">
+				</submission>
+				<best-work-submission
+						*ngSwitchCase="SubmissionType.BEST_WORK_SUBMISSION"
+						[submission]="submission"
+						[clickable]="clickable"
+						[includeOwner]="showUser">
+				</best-work-submission>
+			</div>
+		</ng-container>
+	</div>
+</ng-container>
+
+<ng-template #loading>
+	<loading-spinner></loading-spinner>
+</ng-template>
+<ng-template #empty>
+	<div class="info-message">No work found.</div>
+</ng-template>

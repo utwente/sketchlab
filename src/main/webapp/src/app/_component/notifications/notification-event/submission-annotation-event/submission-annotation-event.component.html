@@ -1,0 +1,6 @@
+<b>{{notificationEvent.annotation.user.firstName}}</b> has left you a comment
+<ng-container *ngIf="notificationEvent.annotation.drawing">with annotation</ng-container>
+
+<blockquote *ngIf="notificationEvent.annotation.comment">
+	{{notificationEvent.annotation.comment}}
+</blockquote>

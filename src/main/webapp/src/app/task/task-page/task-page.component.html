@@ -1,0 +1,48 @@
+<div class="task-page">
+	<ng-container *ngIf="!isEditable(); else editTaskPage">
+		<h1>{{ taskPage.title }}</h1>
+
+		<div *ngIf="!!taskPage.videoUrl" class="video">
+			<iframe class="task-video" frameborder="0" allowfullscreen msallowfullscreen
+					[src]="taskPage.videoUrl | safeUrl"></iframe>
+		</div>
+
+		<div [innerHtml]="taskPage.text | MarkdownToHtml"></div>
+	</ng-container>
+
+	<div *ngIf="isEditable() || (taskPageImages && taskPageImages.length > 0)">
+		<ng-container *ngIf="isEditable()">
+			<h2>Upload attached image</h2>
+			<file-upload [uploadUrl]="getTaskPageImageUploadUrl()"
+						 [allowedDataTypes]="['image/jpg', 'image/jpeg', 'image/png']"
+						 (onUploaded)="getTaskPageImages()"></file-upload>
+		</ng-container>
+		<ng-container *ngIf="taskPageImages && taskPageImages.length > 0">
+			<h2>Attached images</h2>
+			<div class="task-page-images">
+				<div *ngFor="let img of taskPageImages" class="task-page-image" [ngClass]="{editable: editable}">
+					<thumbnailed-image [src]="getTaskPageImageUrl(img)"></thumbnailed-image>
+					<div class="delete" *ngIf="editable">
+						<a (click)="deleteTaskPageImage(img)" title="Click to delete attached image">
+							<fa name="trash"></fa>
+						</a>
+					</div>
+				</div>
+			</div>
+		</ng-container>
+	</div>
+</div>
+
+<ng-template #editTaskPage>
+	<div class="edit-task-page-form">
+		<form [formGroup]="editForm" (ngSubmit)="submitTaskPage(); $event.stopPropagation()">
+			<input formControlName="title" type="text" placeholder="Title" class="title-input">
+			<input formControlName="videoUrl" type="text" placeholder="Vimeo video URL">
+			<textarea formControlName="text" placeholder="Optional assignment text"></textarea>
+			<div>
+				<button class="button" (click)="resetForm()">Cancel</button>
+				<button class="button-yellow" type="submit">Save</button>
+			</div>
+		</form>
+	</div>
+</ng-template>

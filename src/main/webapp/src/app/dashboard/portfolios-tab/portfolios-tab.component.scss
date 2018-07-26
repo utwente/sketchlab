@@ -1,0 +1,23 @@
+@import "../../../styles/variables";
+
+.content-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+
+	.submission-wrapper {
+		margin: 0 $page-segment-inner-spacing $page-segment-inner-spacing 0;
+	}
+
+	.info-message {
+		flex: auto;
+	}
+}
+
+@media #{$breakpoint-only-phone} {
+	.content-wrapper {
+		.submission-wrapper {
+			margin: 0 0 $page-segment-inner-spacing 0;
+		}
+	}
+}

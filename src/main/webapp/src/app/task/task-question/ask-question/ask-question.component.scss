@@ -1,0 +1,16 @@
+@import "../../../../styles/variables";
+
+.content-wrapper {
+	background-color: $page-segment-background-color;
+	padding: $page-segment-inner-spacing;
+
+	form {
+		label {
+			display: block;
+		}
+
+		& > *:not(:last-child) {
+			margin-bottom: $page-segment-inner-spacing;
+		}
+	}
+}

@@ -1,0 +1,41 @@
+@import "../../../styles/variables.scss";
+
+main {
+	display: flex;
+	flex: auto;
+
+	avatar {
+		padding: 0 $page-segment-inner-spacing 0 0;
+		flex: none;
+	}
+
+	.message {
+		flex: auto;
+	}
+}
+
+.quote-title {
+	font-size: $default-text-size-large;
+	line-height: 1rem;
+	margin: 0 0 $page-segment-inner-spacing 0;
+}
+
+.notification .message {
+	margin-bottom: $page-segment-inner-spacing;
+}
+
+.answers {
+	background-color: $background-color;
+	margin-left: calc(64px + #{$page-segment-inner-spacing}); // 64px = avatar size
+	padding: $page-segment-inner-spacing;
+
+	.answer:not(:first-child) {
+		margin-top: $page-segment-spacing;
+	}
+}
+
+.user-message {
+	margin: 0;
+	padding: 0;
+	color: $default-text-color-light;
+}

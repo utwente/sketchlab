@@ -1,0 +1,13 @@
+@import "../../../../styles/variables";
+
+.accordion-head {
+	cursor: pointer;
+	text-align: center;
+	color: $default-text-color-lighter;
+	font-size: $default-text-size-large;
+	padding: $page-segment-inner-spacing;
+	user-select: none;
+	&.active {
+		color: $default-text-color;
+	}
+}

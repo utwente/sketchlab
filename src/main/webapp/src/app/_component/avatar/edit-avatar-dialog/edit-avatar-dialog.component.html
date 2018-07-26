@@ -1,0 +1,20 @@
+<h1>Edit avatar</h1>
+<p>
+	Supported file types are JPG and PNG. The file size should not exceed 25 Mb.
+</p>
+
+<file-upload [uploadOnFileDrop]="true"
+			 [uploadUrl]="avatarUploadUrl"
+			 [data]="{'userId': userId}"
+			 [allowedDataTypes]="['image/jpg', 'image/jpeg', 'image/png']"
+			 (onUploaded)="loadAvatar()"
+></file-upload>
+<div class="dialog-buttons">
+	<button class="button-red" (click)="deleteAvatar()" *ngIf="avatarAvailable">
+		<fa name="trash"></fa>
+		Delete
+	</button>
+	<button class="button" (click)="closeDialog()">
+		Ok
+	</button>
+</div>

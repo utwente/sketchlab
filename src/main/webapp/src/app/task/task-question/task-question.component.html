@@ -1,0 +1,17 @@
+<div class="content-wrapper">
+	<accordion>
+		<accordion-item [showIcons]="true"
+						itemTitle="Ask question"
+						*ngIf="!isTeacher && !isTa"
+						[active]="!previousQuestionsActive">
+			<ask-question [task]="task" [chapterGroupId]="chapterGroupId"
+						  (onSubmit)="getQuestions(); previousQuestionsActive = true;"></ask-question>
+		</accordion-item>
+		<accordion-item [showIcons]="true"
+						itemTitle="Previously asked questions"
+						[active]="isTeacher || isTa || previousQuestionsActive"
+						>
+			<question-list [questions]="questions"></question-list>
+		</accordion-item>
+	</accordion>
+</div>

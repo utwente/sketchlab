@@ -1,0 +1,22 @@
+<div class="content-wrapper">
+	<h1>Welcome back to Sketchlab</h1>
+	<h2>The best place to learn design sketching</h2>
+
+	<loading-spinner *ngIf="loading; else activation"></loading-spinner>
+
+	<ng-template #activation>
+		<ng-container *ngIf="activationSucces; else activationFailed">
+			<p>
+				Congratulations! Your account has been activated. This means you can start your sketching adventure
+				right now. Happy sketching!
+			</p>
+			<p><a routerLink="/account/login">You can log in here.</a></p>
+		</ng-container>
+	</ng-template>
+	<ng-template #activationFailed>
+		<p>
+			Activation failed.
+		</p>
+	</ng-template>
+</div>
+

@@ -1,0 +1,36 @@
+@import "../../../styles/variables";
+
+h1 {
+	color: $accent-color-red;
+
+	&:before{
+		font-family: FontAwesome;
+		content: "\f071"
+	}
+}
+
+.advanced-button {
+	text-align: left;
+}
+.advanced {
+	transition: all 0.5s ease-in-out;
+
+	line-height: 0;
+	overflow: hidden;
+	color: transparent;
+	box-sizing: border-box;
+
+	p {
+		padding: 0;
+		margin: 0;
+	}
+
+	&.visible {
+		transition: all 0.5s ease-in-out;
+		padding: $page-segment-inner-spacing 0;
+		line-height: 1;
+		color: $default-text-color;
+		max-height: 500px;
+		overflow-y: scroll;
+	}
+}

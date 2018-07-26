@@ -1,0 +1,4 @@
+<user-list [users]="users" [chapterId]="chapterId" [chapterGroupId]="chapterGroupId"
+		   [allowTaEditing]="true"
+		   (onEdit)="editSubgroupEnrollments($event)"
+		   (onDelete)="deleteEnrollment($event)"></user-list>

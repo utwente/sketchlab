@@ -1,0 +1,23 @@
+<ng-container *ngIf="submission">
+	<div class="vote-button">
+		<button *ngIf="!loggedInUserIsAnonymous" class="text-button with-icon votes"
+				(click)="toggleVote(); $event.stopPropagation();">
+			<fa [name]="this.submission.userHasVoted ? 'heart' : 'heart-o'"
+				*ngIf="!loadingVote; else loadingVoteIcon"></fa>
+			<span>
+				{{submission.votes}}
+				{{includeText ? (submission.votes != 1 ? ' Likes' : ' Like') : ''}}
+			</span>
+		</button>
+		<div *ngIf="loggedInUserIsAnonymous" class="votes">
+			<fa name="heart-o"></fa>
+			<ng-container *ngIf="includeText">
+				{{submission.votes}} {{submission.votes != 1 ? 'Likes' : 'like'}}
+			</ng-container>
+		</div>
+	</div>
+</ng-container>
+
+<ng-template #loadingVoteIcon>
+	<fa name="circle-o-notch" animation="spin"></fa>
+</ng-template>

@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+
+###############
+#
+# Sketchlab Management Script
+# For swapping, stopping, starting and logging sketchlab instances
+#
+###############
+
+# Configuration
+SKETCHLAB_USER="sketchlab"
+BINARY_ROOT="/home/sketchlab/binaries/"
+JAR_NAME="sketchlab.jar"
+# End configuration
+
+
+if [ $# -lt 1 ]
+then
+	echo "Usage: sketchctl <instance> <command> [arg]*"
+	echo "Commands:"
+	echo " start		Start the instance"
+	echo " restart	Restart the instance"
+	echo " stop		Stop the instance"
+	echo " log		Follow the log"
+	echo " (none)		Show status"
+	echo " deploy <jar>	Stop the instance, replace the JAR with the given file and start again"
+	echo
+	echo "All commands must be executed under the $SKETCHLAB_USER user"
+
+	exit 0
+fi
+
+if [ "$(whoami)" != "$SKETCHLAB_USER" ]
+then
+	echo "All commands must be executed under the $SKETCHLAB_USER user"
+	exit 1
+fi
+
+instance=$1
+command=$2
+case $2 in
+start)
+	echo "Starting $instance..."
+	systemctl --user start sketchlab-${instance}
+	;;
+restart)
+	echo "Restarting $instance..."
+	systemctl --user restart sketchlab-${instance}
+	;;
+stop)
+	echo "Stopping $instance..."
+	systemctl --user stop sketchlab-${instance}
+	;;
+log)
+	echo "Showing log for $instance..."
+	journalctl -f --user-unit sketchlab-${instance}
+	;;
+deploy)
+	if [ $# -ne 3 ]
+	then
+		echo "Usage: $0 <instance> $command <path to JAR>"
+		exit 1
+	fi
+	jar=$3
+	if [ ! -f "$jar" ]
+	then
+		echo "File $jar not found"
+		exit 1
+	fi
+
+	echo "Preparing deploy..."
+	systemctl --user stop sketchlab-${instance}
+	sleep 3
+
+	archive_loc="$BINARY_ROOT/sketchlab-$instance/archive/"
+	if [ ! -d "$archive_loc" ]
+	then
+	    mkdir "$archive_loc"
+	fi
+	mv "$BINARY_ROOT/sketchlab-$instance/$JAR_NAME" "$archive_loc/$JAR_NAME-$(date -Iseconds)"
+
+	cp "$jar" "$BINARY_ROOT/sketchlab-$instance/$JAR_NAME"
+	systemctl --user start sketchlab-${instance}
+	journalctl -f --user-unit sketchlab-${instance}
+	echo "Deploy completed. Old JAR stored at $archive_loc"
+	;;
+*)
+	echo "Showing status of $instance..."
+	systemctl --user status sketchlab-${instance}
+	;;
+esac

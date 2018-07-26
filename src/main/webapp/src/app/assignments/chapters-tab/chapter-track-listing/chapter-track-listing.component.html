@@ -1,0 +1,14 @@
+<option-select
+		label="Actions"
+		[resetAfterSelect]="true"
+		[items]="options"
+		(onChange)="onOptionClick($event)">
+</option-select>
+
+<track-listing
+		[updateCounter]="updateCounter"
+		[chapterGroup]="chapter"
+		(renameClick)="onRenameChapter()"
+		(taskClick)="onTask($event)"
+		[taskEditCallback]="this">
+</track-listing>

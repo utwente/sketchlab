@@ -1,0 +1,30 @@
+@import "../../../../styles/variables";
+
+ul {
+	list-style-type: none;
+	display: flex;
+	margin: 0;
+	padding: 0;
+
+	li {
+		padding: $page-segment-inner-spacing;
+		background-color: $accent-color-gray;
+		color: white;
+		text-align: center;
+		cursor: pointer;
+		user-select: none;
+
+		&.active {
+			background-color: $accent-color;
+			cursor: default;
+		}
+
+		&.move-left {
+			margin-left: $page-segment-inner-spacing;
+		}
+
+		&.move-right {
+			margin-right: $page-segment-inner-spacing;
+		}
+	}
+}

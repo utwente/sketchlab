@@ -1,0 +1,13 @@
+<div>
+	<h3>Random demo components</h3>
+	<div>
+		<input type="text" placeholder="Type something to delete" [(ngModel)]="dialogText">
+		<button class="button" (click)="openDialog()">Click me I'm a button</button>
+		<input type="text" disabled [(ngModel)]="dialogResponse" />
+	</div>
+	<div>
+		<button class="button-yellow" (click)="makeError();">
+			Trigger error
+		</button>
+	</div>
+</div>

@@ -1,0 +1,31 @@
+@import "../../../styles/variables";
+
+.subgroups {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+
+	& > *:not(:last-child) {
+		margin-bottom: $page-segment-inner-spacing;
+	}
+	ul {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		li {
+			box-sizing: border-box;
+			padding: 0 0 $page-segment-inner-spacing;
+			display: flex;
+			.button-group {
+				width: 100%;
+			}
+		}
+	}
+}
+

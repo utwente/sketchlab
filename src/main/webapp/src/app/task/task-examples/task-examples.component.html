@@ -1,0 +1,29 @@
+<div class="content-wrapper" *ngIf="examples && examples.length > 0 || (editable && isTeacher())">
+	<ng-container *ngIf="editable && isTeacher()">
+		<div class="task-example-form">
+			<h1>Upload Example</h1>
+			<form [formGroup]="taskExampleForm" (ngSubmit)="uploadClicked(); $event.stopPropagation()">
+				<div>
+					<file-upload [uploadUrl]="getUploadUrl()"
+								 [allowedDataTypes]="['image/jpg', 'image/jpeg', 'image/png']"
+								 [data]="getUploadData()" (onUploaded)="getTaskExamples()" [uploadOnFileDrop]="false"
+								 #fileUpload>
+					</file-upload>
+				</div>
+				<label>Comment or short description:
+					<textarea formControlName="comment" placeholder=""></textarea>
+				</label>
+				<button type="submit" class="button">Add example</button>
+			</form>
+		</div>
+	</ng-container>
+	<div class="examples" *ngIf="examples && examples.length > 0">
+		<h1>Examples</h1>
+		<div class="task-examples">
+			<div *ngFor="let example of examples" class="task-example">
+				<task-example [chapterId]="task.chapterId" [taskExample]="example" [editable]="editable"
+							  (onDelete)="getTaskExamples()"></task-example>
+			</div>
+		</div>
+	</div>
+</div>

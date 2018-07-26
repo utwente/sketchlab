@@ -1,0 +1,22 @@
+<div class="drop-container" ngFileDrop (uploadOutput)="onUploadOutput($event)"
+	 [uploadInput]="uploadInput"
+	 [ngClass]="{
+	 'file-over': dragOver,
+	 'invalid': invalid || (uploadClicked && files && files.length == 0) || error,
+	 'done': done && !invalid && !error}"
+	 [options]="options"
+	 (click)="openUploadDialog($event)">
+	<p *ngIf="error">An error has occurred, please try again later</p>
+	<p *ngIf="invalid">Invalid file type</p>
+	<p *ngIf="done && !(error || invalid)">Upload finished</p>
+	<p *ngIf="uploadClicked && files && files.length == 0 && !invalid">Please select a file</p>
+	<p>Drag and drop {{ done ? 'another' : 'a' }} file here or click to browse your device.</p>
+	<input type="file" ngFileSelect (uploadOutput)="onUploadOutput($event)" #fileInput
+		   [uploadInput]="uploadInput" [options]="options" [accept]="getAcceptedTypes()">
+	<p *ngIf="!(error || invalid) && uploadClicked && files[0] as file">
+		Uploading&hellip; {{file.progress.data.percentage}}%
+	</p>
+	<p *ngIf="!(error || invalid) && files && files.length > 0">
+		{{ files.length }} file{{ files.length == 1 ? '' : 's'}} selected.
+	</p>
+</div>

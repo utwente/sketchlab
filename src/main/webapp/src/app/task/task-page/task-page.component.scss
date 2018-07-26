@@ -1,0 +1,93 @@
+@import "../../../styles/variables";
+
+.task-page {
+	background-color: $page-segment-background-color;
+	padding: $page-segment-spacing;
+
+	> * {
+		margin-bottom: $page-segment-inner-spacing;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	h1 {
+		font-size: $default-text-size-larger;
+	}
+
+	h2 {
+		font-size: $default-text-size-large;
+		margin-top: $page-segment-inner-spacing;
+		margin-bottom: $page-segment-inner-spacing;
+	}
+
+	.video {
+		position: relative;
+		padding-bottom: 56.25%; /* 16:9 */
+		height: 0;
+
+		iframe {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	.task-page-images {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-evenly;
+		align-items: center;
+
+		.task-page-image {
+			flex: 1 0 auto;
+			width: 200px;
+			box-sizing: border-box;
+			position: relative;
+
+			&.editable {
+				border: 1px solid lighten($accent-color-gray, 20%);
+			}
+			.delete {
+				position: absolute;
+				top: $page-segment-inner-spacing;
+				right: $page-segment-inner-spacing;
+				cursor: pointer;
+				font-size: $default-text-size-larger;
+				color: $accent-color-gray;
+
+				&:hover {
+					color: $default-text-color;
+				}
+			}
+		}
+	}
+
+	.edit-task-page-form {
+		input {
+			width: 100%;
+			margin-bottom: $page-segment-inner-spacing;
+
+			&.title-input {
+				font-size: $default-text-size-larger;
+				font-weight: bold;
+			}
+		}
+	}
+}
+
+@media #{$breakpoint-phone-and-tablet} {
+	.task-page {
+		.task-page-images {
+			> * {
+				flex: 0 1 auto;
+				//flex: 0 1 auto;
+				max-width: 100%;
+				height: auto;
+			}
+		}
+	}
+}

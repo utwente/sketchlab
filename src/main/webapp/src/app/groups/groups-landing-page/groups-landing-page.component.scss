@@ -1,0 +1,16 @@
+@import "../../../styles/variables";
+main {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	font-size: $default-text-size-larger;
+	height: 100%;
+
+	p {
+		text-align: center;
+		color: darken($accent-color-gray, 10%);
+		margin: 0;
+		padding: 0;
+	}
+}

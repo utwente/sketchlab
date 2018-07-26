@@ -1,0 +1,60 @@
+@import "../../../styles/variables.scss";
+
+/**
+ * SCSS also used by the answer component
+ */
+
+main {
+	display: flex;
+	flex: auto;
+
+	avatar {
+		padding: 0 $page-segment-inner-spacing 0 0;
+		flex: none;
+	}
+
+	.message {
+		flex: auto;
+		margin-bottom: $page-segment-inner-spacing;
+	}
+}
+
+.answers, .new-answer {
+	margin-left: calc(64px + #{$page-segment-inner-spacing}); // 64px = avatar size
+
+	::ng-deep :not(:first-child) .answer {
+		margin-top: $page-segment-inner-spacing;
+	}
+}
+
+.answers {
+	padding: $page-segment-inner-spacing;
+	background-color: $background-color;
+}
+
+.new-answer {
+	> * {
+		margin-top: $page-segment-inner-spacing;
+	}
+	input {
+		width: 100%;
+	}
+}
+
+.user-text-title {
+	font-size: $default-text-size-large;
+	line-height: 1rem;
+	margin: 0 0 $page-segment-inner-spacing 0;
+}
+
+.user-text {
+	margin: 0;
+	padding: 0;
+	color: $default-text-color-light;
+}
+
+@media #{$breakpoint-phone-and-tablet} {
+	.answers, .new-answer {
+		margin-left: 0;
+	}
+}

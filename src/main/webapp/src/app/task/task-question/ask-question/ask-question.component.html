@@ -1,0 +1,24 @@
+<div class="content-wrapper">
+	<ng-container *ngIf="task && chapterGroupId; else loading">
+		<div>
+			<p>
+				When the assignment is unclear or you do not understand a segment, you can ask a
+				question here. This question will be directed towards all teachers and teaching
+				assistants for the current course.
+			</p>
+			<form #questionForm="ngForm" (ngSubmit)="createQuestion(); $event.stopPropagation();">
+				<label>
+					Question:
+					<textarea [(ngModel)]="questionText" name="questionText"></textarea>
+				</label>
+				<button type="submit" class="button-yellow" [disabled]="!questionText">
+					Ask question
+				</button>
+			</form>
+		</div>
+	</ng-container>
+</div>
+<ng-template #loading>
+	<loading-spinner></loading-spinner>
+</ng-template>
+

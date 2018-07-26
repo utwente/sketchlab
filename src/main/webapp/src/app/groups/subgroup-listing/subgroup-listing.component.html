@@ -1,0 +1,50 @@
+<accordion>
+	<accordion-item *ngFor="let chapterGroup of chapterGroups"
+					[itemTitle]="chapterGroup.chapterGroup.name"
+					[active]="isActive(chapterGroup.chapterGroup)"
+					[showIcons]="true"
+					(toggleAccordion)="redirect(chapterGroup.chapter.id, chapterGroup.chapterGroup.id)">
+		<div class="subgroups">
+			<button class="text-button" *ngIf="isTeacher()"
+					(click)="createSubgroup(chapterGroup.chapter.id, chapterGroup.chapterGroup)">
+				Create group
+			</button>
+			<button class="text-button"
+					*ngIf="!isTeacher() && !isTa(chapterGroup.chapterGroup.id) && !isAnonymous()"
+					(click)="joinSubgroup(chapterGroup.chapter.id, chapterGroup.chapterGroup)">
+				Manage group enrollments
+			</button>
+			<ul>
+				<li>
+					<div class="spacer">&nbsp;</div>
+					<a class="button"
+					   [routerLink]="getRouterLink(chapterGroup.chapter.id, chapterGroup.chapterGroup.id, 'all')"
+					   [routerLinkActive]="['button-yellow']">
+						All submissions
+					</a>
+					<div class="spacer">&nbsp;</div>
+				</li>
+				<li *ngFor="let subgroup of chapterGroup.subgroups">
+					<div class="button-group">
+						<button [routerLink]="getRouterLink(chapterGroup.chapter.id, chapterGroup.chapterGroup.id, subgroup.id)"
+								class="button" [routerLinkActive]="['button-yellow']">
+							{{subgroup.name}}
+						</button>
+						<button class="button variable-width" *ngIf="isTeacher()"
+								(click)="editSubgroup(chapterGroup.chapter.id, chapterGroup.chapterGroup, subgroup)">
+							<fa name="pencil"></fa>
+						</button>
+						<button class="button variable-width" *ngIf="isTeacher()"
+								(click)="deleteSubgroup(chapterGroup.chapter.id, chapterGroup.chapterGroup, subgroup)">
+							<fa name="trash"></fa>
+						</button>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</accordion-item>
+</accordion>
+
+<ng-template #spacer>
+	<div class="spacer">&nbsp;</div>
+</ng-template>

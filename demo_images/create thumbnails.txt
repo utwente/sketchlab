@@ -1,0 +1,3 @@
+Imagemagick/bash oneliner to create thumbnails for all files in the folder:
+
+for i in *; do convert $i -resize 500x500 $(basename $(basename $i .jpg) .png)_thumbnail.jpg; done

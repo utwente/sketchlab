@@ -1,0 +1,72 @@
+<div class="content-wrapper">
+	<h1>Welcome to Sketchlab</h1>
+	<h2>The best place to learn design sketching</h2>
+	<ng-container *ngIf="!registrationSuccess && !submitted; else alternate">
+		<p>You can register for an account here.</p>
+		<p *ngIf="hasError" class="error-message">{{ errorMessage }}</p>
+		<form [formGroup]="registerForm" (ngSubmit)="register(); $event.stopPropagation()">
+			<div>
+				<input formControlName="firstName" placeholder="First name" tabindex="1">
+				<div class="error-message"
+					 *ngIf="registerForm.get('firstName').touched && !registerForm.get('firstName').valid">
+					Please enter a first name.
+				</div>
+			</div>
+			<div>
+				<input formControlName="lastName" placeholder="Last name" tabindex="2">
+			</div>
+			<div>
+				<input formControlName="email" placeholder="Email address" tabindex="3">
+				<div class="error-message"
+					 *ngIf="registerForm.get('email').touched && !registerForm.get('email').valid">
+					Please enter a valid email address.
+				</div>
+			</div>
+			<div>
+				<input formControlName="emailVerify" placeholder="Verify email address" tabindex="4">
+				<div class="error-message"
+					 *ngIf="registerForm.get('emailVerify').touched && !registerForm.get('emailVerify').valid">
+					Given email addresses do not match.
+				</div>
+			</div>
+			<div>
+				<input formControlName="password" type="password" placeholder="Password" tabindex="4">
+				<div class="error-message"
+					 *ngIf="registerForm.get('password').touched && !registerForm.get('password').valid">
+					Please enter a password of at least 8 characters.
+				</div>
+			</div>
+			<div>
+				<input formControlName="passwordVerify" type="password" placeholder="Verify password" tabindex="5">
+				<div class="error-message"
+					 *ngIf="registerForm.get('passwordVerify').touched && !registerForm.get('passwordVerify').valid">
+					Given passwords do not match.
+				</div>
+			</div>
+			<div>
+				<label for="accepttoc">
+					<input type="checkbox" id="accepttoc" formControlName="accepttoc" tabindex="6">
+					<span>I have read and agree with <br>the <a routerLink="/tos">Terms of Service</a> and the <a routerLink="/privacy">Privacy Statement</a> .</span>
+				</label>
+				<div class="error-message"
+					 *ngIf="registerForm.get('accepttoc').touched && !registerForm.get('accepttoc').valid">
+					Please agree with the Terms of Service and our Privacy policy.
+				</div>
+			</div>
+			<div>
+				<button type="submit" class="button" [disabled]="!registerForm.valid" tabindex="7">Register</button>
+			</div>
+		</form>
+	</ng-container>
+</div>
+
+<ng-template #alternate>
+	<p *ngIf="registrationSuccess; else loading">
+		An activation email has been sent to <em>{{ registeredUser.email}}</em>.
+		Note that without activating the account, you will not be able to log in with the account you have just created.
+	</p>
+</ng-template>
+
+<ng-template #loading>
+	<loading-spinner></loading-spinner>
+</ng-template>

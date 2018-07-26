@@ -1,0 +1,35 @@
+<ng-container *ngIf="annotation">
+	<div class="comment" [ngClass]="{'active': isActive}">
+		<div class="avatar">
+			<avatar [user]="annotation.user" [size]="48"></avatar>
+		</div>
+		<div class="annotation">
+			<header>
+				<div>
+					<h1 *ngIf="!(isTeacher || isTa)"><a [routerLink]="userRouterLink">{{fullName}}</a></h1>
+					<h1 *ngIf="isTeacher || isTa">{{fullName}}</h1>
+					<div *ngIf="isTa" class="badge ta-badge">
+						Teaching Assistant
+					</div>
+					<div *ngIf="isTeacher" class="badge teacher-badge">
+						Teacher
+					</div>
+				</div>
+				<div>
+					<span class="annotation-time">{{annotation.createdAt | momentFormat}}</span>
+					<button *ngIf="canDelete" class="text-button" (click)="deleteAnnotation()"
+							title="Delete this comment">
+						<fa name="trash"></fa>
+					</button>
+				</div>
+			</header>
+			<div *ngIf="annotation.comment" [innerHtml]="annotation.comment | MarkdownToHtml"></div>
+			<p *ngIf="isDrawingPresent">
+				<button class="text-button" [routerLink]="annotationRouterLink" href="#annotation-anchor" pageScroll>
+					<fa name="paperclip"></fa>
+					View attached annotation
+				</button>
+			</p>
+		</div>
+	</div>
+</ng-container>

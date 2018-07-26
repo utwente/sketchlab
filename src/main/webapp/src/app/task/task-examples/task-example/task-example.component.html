@@ -1,0 +1,13 @@
+<div class="task-example">
+	<div (click)="click(); $event.stopPropagation();">
+		<section class="task-example-content">
+			<thumbnailed-image [thumbnailSrc]="getThumbnailUrl()" [src]="getFileUrl()"></thumbnailed-image>
+		</section>
+		<div class="example-comment" [innerHtml]="taskExample.comment | MarkdownToHtml"></div>
+	</div>
+	<footer *ngIf="editable">
+		<a (click)="deleteTaskExample()" title="Click to delete task example">
+			<fa name="trash"></fa>
+		</a>
+	</footer>
+</div>

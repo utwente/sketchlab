@@ -1,0 +1,34 @@
+@import "../../../styles/variables";
+
+.content-wrapper {
+	.previous-uploads {
+		& > * {
+			margin-bottom: $page-segment-inner-spacing;
+		}
+		.previous-uploads-content {
+			display: flex;
+			justify-content: space-around;
+			flex-wrap: wrap;
+
+			.previous-upload {
+				margin-right: $page-segment-inner-spacing;
+				margin-bottom: $page-segment-inner-spacing;
+			}
+		}
+	}
+	& > * {
+		margin-bottom: $page-segment-inner-spacing;
+	}
+}
+
+@media #{$breakpoint-only-phone} {
+	.content-wrapper {
+		.previous-uploads {
+			.previous-uploads-content {
+				.previous-upload {
+					margin-right: 0;
+				}
+			}
+		}
+	}
+}

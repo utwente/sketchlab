@@ -1,0 +1,7 @@
+<accordion-title *ngIf="!active || !hideTitleWhenExpanded" (click)="onClick($event)" [active]="active" [showCaret]="showIcons">
+	{{itemTitle}}
+</accordion-title>
+<div class="accordion-body" [ngClass]="{active: active}">
+	<ng-content></ng-content>
+</div>
+<hr>

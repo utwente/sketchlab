@@ -1,0 +1,62 @@
+@import "../../../styles/variables";
+
+main {
+	padding: $page-segment-inner-spacing;
+	color: $default-text-color-light;
+}
+
+.options {
+	display: inline-block;
+	position: relative;
+}
+
+.label {
+	padding-right: $page-segment-inner-spacing;
+}
+
+.current {
+	cursor: pointer;
+	user-select: none;
+	&:hover {
+		color: $default-text-color;
+	}
+}
+
+.dropdown {
+	background-color: $tabbar-background-color;
+	@include tabbar-top-border;
+	@include tabbar-left-border;
+	@include tabbar-bottom-border;
+	@include tabbar-right-border;
+	position: absolute;
+	z-index: 1;
+
+	top: calc(#{-$page-segment-inner-spacing} - 1px);
+	left: calc(#{-$page-segment-spacing} - 2px);
+
+	display: flex;
+
+	ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+
+		li {
+			color: $default-text-color-lighter;
+			padding: $page-segment-inner-spacing $page-segment-spacing;
+			min-width: $button-width;
+			cursor: pointer;
+			user-select: none;
+
+			&:hover {
+				color: $default-text-color;
+				background-color: darken(white, 2.5%);
+			}
+
+			&.selected {
+				color: $default-text-color;
+				background-color: darken(white, 5%);
+			}
+		}
+	}
+}

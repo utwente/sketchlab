@@ -1,0 +1,23 @@
+@import "../../../../styles/variables";
+
+.content-wrapper {
+	text-align: center;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+
+	h1 {
+		text-transform: uppercase;
+		font-size: $default-text-size-huge;
+	}
+	h2 {
+		font-size: $default-text-size-large;
+		margin-bottom: $page-segment-spacing;
+	}
+}
+
+@media #{$breakpoint-only-desktop} {
+	.content-wrapper {
+		margin-left: 2rem;
+	}
+}

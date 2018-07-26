@@ -1,0 +1,37 @@
+<form #internalUserSearchForm="ngForm">
+	<label class="input-with-icon">
+		<span class="icon"><fa name="search"></fa></span>
+		<input type="text" name="searchInput" [(ngModel)]="searchInput" (keyup)="findUsers()">
+	</label>
+</form>
+
+<table *ngIf="!!users && users.length != 0; else noUsers">
+	<tr>
+		<th class="email">Email</th>
+		<th class="first-name">First Name</th>
+		<th class="last-name">Last Name</th>
+		<th class="active">Active</th>
+		<th class="suspended">Suspended</th>
+	</tr>
+	<ng-container *ngFor="let user of users">
+		<tr>
+			<td class="email" [title]="user.user.email">{{user.user.email}}</td>
+			<td class="first-name" [title]="user.user.firstName">
+				{{user.user.firstName}}
+			</td>
+			<td class="last-name" [title]="user.user.lastName ? user.user.lastName : ''">
+				{{user.user.lastName}}
+			</td>
+			<td class="active">
+				<input type="checkbox" (click)="toggleActive(user, $event.target)" [checked]="user.active">
+			</td>
+			<td class="active">
+				<input type="checkbox" (click)="toggleSuspended(user, $event.target)" [checked]="user.suspended">
+			</td>
+		</tr>
+	</ng-container>
+</table>
+
+<ng-template #noUsers>
+	<p class="info-message">No users found.</p>
+</ng-template>

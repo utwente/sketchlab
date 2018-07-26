@@ -1,0 +1,80 @@
+@import "../../../../styles/variables";
+
+.comment {
+	display: flex;
+	padding: $page-segment-inner-spacing;
+	box-sizing: border-box;
+	border: 2px solid transparent;
+
+	&.active {
+		border: 2px solid $accent-color;
+		box-shadow: 0 0 10px lighten($accent-color, 20%) inset;
+	}
+
+	.avatar {
+		margin-right: $page-segment-inner-spacing;
+	}
+	.annotation {
+		header {
+			height: 48px;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+
+			& > div {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+			}
+
+			h1 {
+				font-size: $default-text-size-large;
+				margin-right: $page-segment-inner-spacing;
+
+				a, a:visited {
+					color: $default-text-color;
+					text-decoration: none;
+
+					&:hover, &:active {
+						text-decoration: underline;
+					}
+				}
+			}
+
+
+			.badge {
+				&:not(:last-child) {
+					margin-right: $page-segment-inner-spacing;
+				}
+
+				&:after {
+					font-family: FontAwesome;
+				}
+
+				&.ta-badge, &.teacher-badge {
+					color: $accent-color;
+
+					&:after {
+						content: "\f19d";
+					}
+				}
+			}
+
+			.annotation-time {
+				color: $default-text-color-lighter;
+
+				&:not(:last-child) {
+					margin-right: $page-segment-inner-spacing;
+				}
+			}
+		}
+	}
+}
+
+@media #{$breakpoint-only-phone} {
+	.comment {
+		.avatar {
+			display: none;
+		}
+	}
+}

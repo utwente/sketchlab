@@ -1,0 +1,36 @@
+@import "../../../styles/variables";
+
+.content-wrapper {
+	background-color: $page-segment-background-color;
+	padding: $page-segment-spacing;
+
+	.task-example-form {
+		h1, label, button, textarea, div {
+			margin-bottom: $page-segment-inner-spacing;
+		}
+	}
+	.examples {
+		.task-examples {
+			margin-top: $page-segment-inner-spacing;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-around;
+
+			.task-example {
+				margin: 0 $page-segment-inner-spacing $page-segment-inner-spacing 0;
+			}
+		}
+	}
+}
+
+@media #{$breakpoint-only-phone} {
+	.content-wrapper {
+		.examples {
+			.task-examples {
+				.task-example {
+					margin: 0 0 $page-segment-inner-spacing 0;
+				}
+			}
+		}
+	}
+}

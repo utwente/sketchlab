@@ -1,0 +1,69 @@
+@import "../../../styles/variables";
+
+aside {
+	overflow: auto;
+	background-color: $page-segment-background-color;
+	padding: $page-segment-inner-spacing;
+	padding-top: 0;
+	z-index: 3;
+}
+
+.title {
+	font-weight: normal;
+	text-align: center;
+	margin: 20px;
+
+}
+
+.page-cover {
+	// Page cover sits behind the hamburger menu when it's expanded and darkens out the page
+	display: none;
+	position: absolute;
+	top: $tabbar-height;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 2;
+	background-color: $hamburger-shadow-color;
+}
+
+// Components
+::ng-deep {
+	hr {
+		margin-left: -$page-segment-inner-spacing;
+		margin-right: -$page-segment-inner-spacing;
+	}
+}
+
+@media #{$breakpoint-phone-and-tablet} {
+	// For phones and tablets, put the sidebar in the hamburger menu, so it's hidden by default
+	aside {
+		display: none;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: $tabbar-height;
+
+		// Hide the title as it's visible in the nav bar
+		.title {
+			display: none;
+		}
+
+		// Become visible with a button
+		&.visible {
+			display: block;
+		}
+	}
+
+	.page-cover.visible {
+		display: block;
+	}
+}
+
+@media #{$breakpoint-only-desktop} {
+	aside {
+		flex: auto;
+		width: 300px;
+		min-height: calc(100% - #{$page-segment-inner-spacing});
+	}
+}

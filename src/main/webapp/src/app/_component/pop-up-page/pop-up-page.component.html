@@ -1,0 +1,17 @@
+<div class="popup-page">
+	<header>
+		<anonymous-annoy-bar [hideAnnoyBar]="hideAnonymousAnnoyBar"></anonymous-annoy-bar>
+		<header>
+			<a class="text-button with-icon" (click)="clickPrevious($event)">
+				<fa name="arrow-left"></fa>
+				<span>Go back</span>
+			</a>
+			<h1 *ngIf="pageTitle">{{ pageTitle }}</h1>
+		</header>
+	</header>
+	<main>
+		<ng-content></ng-content>
+	</main>
+
+	<page-footer></page-footer>
+</div>

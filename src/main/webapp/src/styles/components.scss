@@ -1,0 +1,267 @@
+@import "variables.scss";
+
+/**
+ * Button and input styles
+ */
+input, textarea {
+	border-radius: 0;
+	box-sizing: border-box;
+	background-color: $page-segment-background-color;
+	color: $default-text-color;
+	border: 1px solid $accent-color-gray;
+
+	&:not([type="checkbox"]) {
+		padding: $page-segment-inner-spacing;
+		min-width: 250px;
+	}
+
+	&[type="checkbox"], &[type="radio"] {
+		vertical-align: middle;
+		margin: $page-segment-inner-spacing;
+	}
+
+	&[class*="ng-invalid"][class*="ng-touched"] {
+		border-color: $accent-color-red;
+		background-color: lighten($accent-color-red, 50%);
+	}
+
+	&[disabled] {
+		cursor: not-allowed;
+	}
+}
+
+label {
+	&.checkbox {
+		user-select: none;
+	}
+
+	&.input-with-icon {
+		position: relative;
+		input {
+			padding-left: 3 * $page-segment-inner-spacing;
+		}
+		.icon {
+			color: $accent-color-gray;
+			z-index: 1;
+			position: absolute;
+			top: $page-segment-inner-spacing;
+			left: $page-segment-inner-spacing;
+		}
+	}
+}
+
+.button-group {
+	width: auto;
+	display: flex;
+	& > * {
+		margin: 0;
+
+		&:not(:last-child) {
+			border-right: 1px solid #FFFFFF66;
+		}
+		max-width: 150px;
+	}
+
+	.variable-width {
+		min-width: auto;
+	}
+}
+
+.button, .button-yellow, .button-black, .button-red {
+	display: block;
+	box-sizing: border-box;
+	border-radius: 0;
+	cursor: pointer;
+	user-select: none;
+	border: 0;
+	padding: $page-segment-inner-spacing;
+	min-width: $button-width;
+	text-decoration: none;
+	text-align: center;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	&[disabled] {
+		cursor: not-allowed;
+	}
+}
+
+@mixin button-colors($text-color, $bg-color) {
+	color: $text-color;
+	background-color: $bg-color;
+
+	&:hover:not(:disabled) {
+		background-color: darken($bg-color, 5%);
+	}
+	&:active:not(:disabled), &.active {
+		background-color: lighten($bg-color, 5%);
+	}
+
+	&:disabled {
+		color: darken($text-color, 30%);
+		background-color: lighten($bg-color, 5%);
+	}
+}
+
+.button {
+	@include button-colors($button-color, $button-background-color);
+}
+
+.button-yellow {
+	@include button-colors($button-color, $accent-color);
+}
+
+.button-black {
+	@include button-colors($button-color, $accent-color-black)
+}
+
+.button-red {
+	@include button-colors($button-color, $accent-color-red)
+}
+
+.text-button {
+	cursor: pointer;
+	background-color: initial;
+	color: $default-text-color;
+	border: none;
+	text-decoration: none;
+	padding: 0;
+	margin: 0 0 0 0;
+
+	&:hover {
+		text-decoration: underline;
+	}
+
+	&.with-icon:hover {
+		text-decoration: none;
+
+		& > span {
+			text-decoration: underline;
+		}
+	}
+	&:disabled {
+		cursor: not-allowed;
+		color: $default-text-color-lighter;
+		text-decoration: none;
+	}
+}
+
+/**
+ * Messages
+ */
+.info-message {
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	justify-content: center;
+	background-color: $page-segment-background-color;
+	padding: $page-segment-inner-spacing;
+}
+
+.error-message {
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	justify-content: center;
+	border: 1px solid $accent-color-red;
+	background-color: lighten($accent-color-red, 20%);
+	padding: $page-segment-inner-spacing;
+}
+
+/**
+ * Notifications
+ * Notifications have a container object w/ title and a list of notifications attached.
+ */
+.notification-container {
+	background-color: $page-segment-background-color;
+	margin-bottom: $page-segment-inner-spacing;
+
+	> header {
+		display: flex;
+		align-items: center;
+
+		> * {
+			margin: 0;
+			padding: $page-segment-inner-spacing * 0.75 $page-segment-inner-spacing;
+		}
+
+		> .title {
+			color: $tabbar-link-color;
+
+			.focus {
+				color: $tabbar-link-active-color;
+			}
+		}
+
+		> .close {
+			margin-left: auto;
+			flex: none;
+			cursor: pointer;
+
+			&:hover {
+				background-color: $button-background-color;
+			}
+			&:active {
+				background-color: $button-hover-background-color;
+			}
+		}
+	}
+
+	.notification {
+		margin: 0;
+		padding: $page-segment-inner-spacing;
+		background-color: white;
+		@include tabbar-top-border;
+
+		main {
+			display: flex;
+
+			> time {
+				margin-left: auto;
+				flex: none;
+				font-size: $default-text-size-small;
+				color: $default-text-color-light;
+			}
+		}
+	}
+}
+
+/**
+ * Other
+ */
+blockquote {
+	margin: 1rem;
+	padding: 0.5rem;
+	border-left: 3px solid $accent-color-gray;
+	color: $default-text-color-light;
+}
+
+h1, h2 {
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	font-size: $default-text-size-huge;
+}
+
+h2 {
+	font-size: $default-text-size-larger
+}
+
+textarea {
+	width: 100%;
+	padding: $page-segment-inner-spacing;
+	display: block;
+	box-sizing: border-box;
+	min-height: 250px;
+}
+
+hr {
+	height: 2px;
+	background: none;
+	border: none;
+	@include tabbar-bottom-border;
+}

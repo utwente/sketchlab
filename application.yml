@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: dev
+
+sketchlab:
+  root-url: http://localhost:8080
+  tomcat:
+    connectors:
+      - protocol: 'HTTP/1.1'
+        port: 8080
+  sso:
+    logout:
+      url: https://signon-test.utsp.utwente.nl/utsso/logout.jsp
+  email:
+    from: test@sketchlab.utwente.nl
+    from-personal: 'Sketchlab Account Manager (test)'

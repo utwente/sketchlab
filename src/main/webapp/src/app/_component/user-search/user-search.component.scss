@@ -1,0 +1,43 @@
+@import "../../../styles/variables";
+:host {
+	width: 100%;
+}
+form {
+	display: flex;
+	flex-direction: column;
+
+	label, button, div {
+		margin-bottom: $page-segment-inner-spacing;
+		box-sizing: border-box;
+	}
+
+	label {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		input:not([type=checkbox]) {
+			width: 100%;
+		}
+	}
+
+	.advanced {
+		overflow-y: hidden;
+		max-height: 200px;
+
+		transition: all 0.5s ease-in-out;
+
+		&:not(.visible) {
+			max-height: 0;
+		}
+
+		label {
+			display: flex;
+			justify-content: space-between;
+
+			&.checkbox {
+				justify-content: center;
+			}
+		}
+	}
+}

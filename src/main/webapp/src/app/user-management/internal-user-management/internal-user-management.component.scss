@@ -1,0 +1,87 @@
+@import "../../../styles/variables";
+
+:host {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+
+	label, button, div {
+		margin-bottom: $page-segment-inner-spacing;
+		box-sizing: border-box;
+	}
+
+	label {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		input:not([type=checkbox]) {
+			width: 100%;
+		}
+	}
+}
+
+table {
+	border-collapse: collapse;
+	text-align: center;
+	table-layout: fixed;
+	width: 100%;
+	tr {
+		&:first-child {
+			@include tabbar-bottom-border;
+		}
+
+		&:not(:first-child):hover {
+			background-color: $accent-color;
+		}
+
+		&:nth-child(even) {
+			background-color: #ececec;
+		}
+	}
+
+	th, td {
+		box-sizing: border-box;
+		padding: $page-segment-inner-spacing;
+		min-width: 10rem;
+		&.email, &.active, &.suspended {
+			width: 10rem;
+		}
+
+		&:not(:last-child) {
+			@include tabbar-right-border
+		}
+	}
+
+	.email, .first-name, .last-name {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.role {
+		text-align: left;
+	}
+}
+
+@media #{$breakpoint-only-phone} {
+	main {
+		form {
+			max-width: 100%;
+		}
+
+	}
+
+	table {
+		.first-name, .last-name {
+			display: none;
+		}
+	}
+}

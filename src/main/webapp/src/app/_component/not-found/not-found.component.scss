@@ -1,0 +1,20 @@
+@import "../../../styles/variables";
+
+main {
+	flex: auto;
+}
+
+.segment {
+	@include page-segment;
+	text-align: center;
+
+	h1 {
+		font-size: $default-text-size-huge;
+	}
+}
+
+@media #{$breakpoint-only-desktop} {
+	.segment {
+		margin-left: 2rem;
+	}
+}

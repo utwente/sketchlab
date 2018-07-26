@@ -1,0 +1,39 @@
+@import "../../../styles/variables";
+
+.popup-page {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	background-color: $footer-background-color;
+	position: relative;
+	header {
+		background-color: $footer-background-color;
+		position: sticky;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 50;
+		header {
+			display: flex;
+			justify-content: space-between;
+			padding: $page-segment-inner-spacing;
+
+			.text-button, h1 {
+				font-size: $default-text-size-large;
+				color: white;
+			}
+		}
+	}
+
+	main {
+		padding: $page-segment-spacing;
+		flex: 1 0 auto;
+	}
+
+	@media #{$breakpoint-only-phone} {
+		main {
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+}

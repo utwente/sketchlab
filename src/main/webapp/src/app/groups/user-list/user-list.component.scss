@@ -1,0 +1,82 @@
+@import "../../../styles/variables";
+
+.content-wrapper {
+	@include page-segment;
+
+	ul {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+
+		.member {
+			display: flex;
+			align-items: center;
+			padding: $page-segment-inner-spacing;
+
+			.user-data {
+				display: flex;
+				flex-wrap: wrap;
+
+				& > * {
+					padding-right: $page-segment-inner-spacing;
+
+					&:not(:last-child) {
+						margin-right: 0;
+					}
+				}
+			}
+			a, a:visited {
+				color: $default-text-color;
+				text-decoration: none;
+
+				&:hover, &:active {
+					text-decoration: underline;
+				}
+			}
+
+			.badges {
+				user-select: none;
+				.badge {
+					display: inline-block;
+
+					&:after {
+						font-family: FontAwesome;
+						margin-left: 0.2 * $page-segment-inner-spacing;
+					}
+
+					&.ta-badge {
+						color: $accent-color;
+
+						&:after {
+							content: "\f19d";
+						}
+					}
+
+					&.graded-badge {
+						color: $accent-color-gray;
+
+						&:after {
+							content: "\f00c";
+						}
+					}
+				}
+			}
+
+			.operations {
+				color: $default-text-color-lighter;
+
+				& > *:hover {
+					cursor: pointer;
+					color: $default-text-color;
+				}
+			}
+			& > * {
+				margin-right: $page-segment-inner-spacing;
+
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+	}
+}

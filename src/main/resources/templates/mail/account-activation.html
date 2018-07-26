@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<h1>Sketchlab Account Activation</h1>
+<p>Hello <th:block th:text="${user.firstName}"/>,<br/>
+	You are receiving this email because you or someone using your email-address registered to <a th:href="${root_url}"><th:block th:text="${root_url}"/></a>.
+</p>
+
+<p>
+	To be able to use all Sketchlab features you first have to activate your account through the link below:
+</p>
+<p>
+	<a th:href="${activation_link}"><th:block th:text="${activation_link}" /></a>
+</p>
+
+<br/>
+<p>
+	After activating your account you will be able to log in.
+</p>
+
+<p>
+	Happy sketching,<br/>
+	The Sketchlab mail service
+</p>
+
+</body>
+</html>

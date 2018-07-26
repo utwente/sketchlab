@@ -1,0 +1,15 @@
+@import "../../../styles/variables";
+
+.anonymous-bar {
+	@include tabbar-bottom-border;
+	color: $footer-color;
+	font-size: $footer-font-size;
+	background-color: $footer-background-color;
+	text-align: center;
+	padding: $page-segment-inner-spacing;
+
+	a, a:visited {
+		color: darken(white, 5%);
+		text-decoration: none;
+	}
+}

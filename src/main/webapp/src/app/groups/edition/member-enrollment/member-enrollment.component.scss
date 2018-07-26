@@ -1,0 +1,59 @@
+@import "../../../../styles/variables";
+
+.content-wrapper {
+	@include page-segment;
+}
+
+table {
+	border-collapse: collapse;
+	text-align: center;
+	table-layout: fixed;
+	width: 100%;
+	tr {
+		&:first-child {
+			@include tabbar-bottom-border;
+		}
+
+		&:not(:first-child):hover {
+			background-color: $accent-color;
+		}
+
+		&:nth-child(even) {
+			background-color: #ececec;
+		}
+	}
+
+	th, td {
+		box-sizing: border-box;
+		padding: $page-segment-inner-spacing;
+		overflow-x: hidden;
+		text-overflow: ellipsis;
+		&.student-id, &.enrollment-box, &.ta-box {
+			width: 10rem;
+		}
+
+		&:not(:last-child) {
+			@include tabbar-right-border
+		}
+	}
+}
+
+@media #{$breakpoint-only-phone} {
+	table {
+		th.enrollment-box, th.ta-box {
+			transform: rotate(90deg);
+			//transform-origin: left top 0;
+		}
+
+		td, th {
+			&:not(.student-id):not(.enrollment-box):not(.ta-box) {
+				display: none;
+			}
+
+			&.enrollment-box, &.ta-box {
+				min-width: 3rem;
+				width: 3rem;
+			}
+		}
+	}
+}

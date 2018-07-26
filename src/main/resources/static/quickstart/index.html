@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Autoplay / pause media - fullPage.js</title>
+    <meta name="author" content="Alvaro Trigo Lopez" />
+    <meta name="description" content="fullPage full-screen autoplay videos and audio." />
+    <meta name="keywords"  content="fullpage,jquery,demo,autoplay,video,audio,html5,paluse" />
+    <meta name="Resource-type" content="Document" />
+
+    <link rel="stylesheet" type="text/css" href="jquery.fullPage.css" />
+    <link rel="stylesheet" type="text/css" href="examples.css" />
+    <style>
+    .intro p{
+        color: #fff;
+    }
+    </style>
+
+    <!--[if IE]>
+        <script type="text/javascript">
+             var console = { log: function() {} };
+        </script>
+    <![endif]-->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+    <script type="text/javascript" src="jquery.fullPage.js"></script>
+    <script type="text/javascript" src="examples.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#fullpage').fullpage({
+                sectionsColor: ['#2A353As', '#1BBC9B', '#7E8F7C'],
+                anchors: ['firstPage', 'secondPage', '3rdPage'],
+                loopHorizontal: false,
+                slidesNavigation: true,
+                afterSlideLoad: function( anchorLink, index, slideAnchor, slideIndex){
+                    var loadedSlide = $(this);
+
+                    //first slide of the second section
+                    if(anchorLink == 'firstPage' && slideIndex == 3){
+                      $( ".gotit" ).addClass( "visible" );
+                    }
+                  }
+            });
+        });
+    </script>
+
+</head>
+<body>
+
+
+
+<div id="fullpage">
+    <div class="section">
+        <div class="slide">
+          <h1>Welcome</h1>
+          <p>Sketchlab is a design-sketching community</p>
+          <video loop muted controls="false" data-autoplay>
+            <source src="video/1.mp4" type="video/mp4">
+          </video>   
+        </div>
+        <div class="slide">
+          <h1>Personal Page</h1>
+          <p>Here you can see an overview of your work, comments and grades</p>
+          <video loop muted controls="false" data-autoplay>
+            <source src="video/1.mp4" type="video/mp4">
+          </video>   
+        </div>
+        <div class="slide">
+          <h1>Groups</h1>
+          <p>Here you can share your work and communicate with peers and teachers</p>
+          <video loop muted controls="false" data-autoplay>
+            <source src="video/2.mp4" type="video/mp4">
+          </video>   
+        </div>
+        <div class="slide">
+            <span class="gotit"><a href="">GOT IT</a></span>
+          <h1>Course Overview</h1>
+          <p>Here you can join watch videos, join workshops, and turn in your work</p>
+          <video loop muted controls="false" data-autoplay>
+            <source src="video/3.mp4" type="video/mp4">
+          </video>   
+        </div>
+    </div>
+    
+</div>
+
+
+</body>
+</html>

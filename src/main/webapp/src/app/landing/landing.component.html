@@ -1,0 +1,74 @@
+<decorated-page [hideHamburger]="true" [hideAnonymousAnnoyBar]="true">
+	<div class="landing-container">
+		<div class="container intro">
+			<h1>Welcome to Sketchlab!</h1>
+			<h3>The best place to learn design sketching</h3>
+			<div class="intro-button-group">
+				<a routerLink="/account/register" class="button sign-up">Try for free</a>
+			</div>
+		</div>
+
+		<div class="container demo" >
+			<div class="highlight-container">
+				<div class="landing-video">
+					<video autoplay loop>
+						<source src="/assets/intro_video.mp4" type="video/mp4">
+						Your browser does not support the video tag.
+					</video>
+					<img src="/assets/laptop.png" />
+				</div>
+			</div>
+		</div>
+
+
+		<div class="container highlight">
+			<div class="highlight-container">
+				<div class="highlight-item">
+					<h2>Take your Sketching Classes online</h2>
+					<p>
+						Sketchlab is an online classroom for learning sketching skills step by step. Making assignments based on effective instruction and video tutorials. No matter where you are, Sketchlab allows you to learn at your own pace.
+					</p>
+				</div>
+				<div class="highlight-item">
+					<div class="image feedback"></div>
+				</div>
+			</div>
+		</div>
+		<div class="container highlight">
+			<div class="highlight-container">
+				<div class="highlight-item">
+					<div class="image stopwatch"></div>
+				</div>
+				<div class="highlight-item">
+					<h2>Communicate with peers</h2>
+					<p>
+						Join groups for getting inspiration and sharing your drawings. Connecting with peers allows you to get and give textual as well as visual feedback. Upload your results to create your own portfolio</p>
+				</div>
+			</div>
+		</div>
+		<div class="container highlight">
+			<div class="highlight-container">
+				<div class="highlight-item">
+					<h2>Receive professional feedback</h2>
+					<p>
+						Improve your skills by doing while receiving guidance and feedback from expert teachers. Receive support on all levels in analog and digital design drawing covering a wide variety of visual skills.</p>
+				</div>
+				<div class="highlight-item">
+					<div class="image computer"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container best-work">
+			<h1>Get inspired by students</h1>
+
+			<best-work [submissionAmount]="3"></best-work>
+
+		</div>
+
+		<div class="container sign-up" routerLink="/account/register">
+			<p>Sign Up Now!</p>
+		</div>
+	</div>
+</decorated-page>
+

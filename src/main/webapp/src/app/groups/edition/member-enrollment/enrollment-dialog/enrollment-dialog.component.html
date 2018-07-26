@@ -1,0 +1,18 @@
+<h1>Enrollments updated</h1>
+<ng-container *ngIf="enrollmentInfo">
+	<p>{{updatedLength}} of {{length}} given entries were updated.</p>
+
+	<ng-container *ngIf="erroredLength > 0">
+		<p>Several erroneous entries were encountered. Please make sure these entries adhere to the
+			given guidelines. The following entries are considered erroneous:</p>
+		<ul>
+			<li *ngFor="let erroredUser of enrollmentInfo.errored">
+				{{ erroredUser }}
+			</li>
+		</ul>
+	</ng-container>
+</ng-container>
+
+<section class="dialog-buttons">
+	<button class="button-yellow" (click)="submit()">Ok</button>
+</section>

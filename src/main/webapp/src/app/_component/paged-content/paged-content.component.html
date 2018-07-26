@@ -1,0 +1,12 @@
+<ng-container *ngIf="page">
+	<div class="page-list-wrapper" *ngIf="pagesOnTop">
+		<page-list [page]="page" (onChangePage)="this.onPageChange.emit($event)"></page-list>
+	</div>
+
+	<ng-template [ngTemplateOutlet]="contentTemplate"
+				 [ngTemplateOutletContext]="{ $implicit: page.content }"></ng-template>
+
+	<div class="page-list-wrapper" *ngIf="pagesOnBottom">
+		<page-list [page]="page" (onChangePage)="this.onPageChange.emit($event)"></page-list>
+	</div>
+</ng-container>

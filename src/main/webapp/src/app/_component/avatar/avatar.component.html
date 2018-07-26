@@ -1,0 +1,16 @@
+<ng-container *ngIf="user">
+	<div class="container" [ngStyle]="containerStyle"
+		 (click)="editAllowed? editAvatar() : ''"
+		 [ngClass]="{'editable': editAllowed}"
+		 (mouseenter)="hover = editAllowed" (mouseleave)="hover = false">
+		<ng-container *ngIf="!hover">
+			<img [src]="avatar" [width]="size" [height]="size" *ngIf="avatar">
+			<div class="text-content" *ngIf="!avatar">{{userInitials}}</div>
+		</ng-container>
+		<ng-container *ngIf="hover">
+			<div class="text-content">
+				<fa [name]="avatar ? 'pencil' : 'upload'"></fa>
+			</div>
+		</ng-container>
+	</div>
+</ng-container>

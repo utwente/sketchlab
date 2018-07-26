@@ -1,0 +1,22 @@
+// Libraries
+@import '~normalize.css';
+@import '~font-awesome/css/font-awesome.css';
+
+// Extra files
+@import "styles/variables.scss";
+@import "styles/components.scss";
+
+a {
+	outline: 0;
+}
+
+// Page styles
+html, body {
+	height: 100%;
+}
+
+body {
+	font-family: 'Nunito', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	background-color: #ececec;
+	color: $default-text-color;
+}

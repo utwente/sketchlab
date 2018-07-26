@@ -1,0 +1,22 @@
+<ng-container *ngIf="submission">
+	<div class="best-work-button">
+		<button *ngIf="isTeacher" class="text-button best-work"
+				[ngClass]="{'with-icon': includeText}"
+				[title]="isBestWork ? 'Unmark as best work' : 'Mark as best work'"
+				(click)="toggleBestWork(); $event.stopPropagation();">
+			<fa [name]="isBestWork ? 'star' : 'star-o'"
+				*ngIf="!loading; else loadingVoteIcon"></fa>
+			<span *ngIf="includeText">
+				{{isBestWork ? ' Unmark best work' : ' Mark best work'}}
+			</span>
+		</button>
+		<div *ngIf="!isTeacher" class="best-work">
+			<fa [title]="isBestWork ? 'Best work' : 'Not best work'"
+				[name]="isBestWork ? 'star' : 'star-o'"></fa>
+		</div>
+	</div>
+</ng-container>
+
+<ng-template #loadingVoteIcon>
+	<fa name="circle-o-notch" animation="spin"></fa>
+</ng-template>

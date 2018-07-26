@@ -1,0 +1,11 @@
+<div class="notification-container" (click)="onClick($event)">
+	<header>
+		<p class="title">
+			<ng-container #titleInsertionPoint></ng-container>
+		</p>
+		<div class="close" title="Clear all" (click)="deleteAll($event)">
+			<fa name="times"></fa>
+		</div>
+	</header>
+	<notification-event-container *ngFor="let event of notification.notifications" [event]="event" ></notification-event-container>
+</div>

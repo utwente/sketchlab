@@ -1,0 +1,10 @@
+<div class="dialog-container" (click)="stopPropagation($event)">
+	<header>
+		<div class="close" title="Close dialog" (click)="close($event)">
+			<fa name="times"></fa>
+		</div>
+	</header>
+	<main>
+		<ng-content></ng-content>
+	</main>
+</div>

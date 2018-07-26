@@ -1,0 +1,34 @@
+<track-listing-header></track-listing-header>
+
+<main *ngIf="chapterGroups; else loading">
+	<accordion *ngIf="chapterGroups.length > 0 || role == 'TEACHER'">
+		<!-- + button is actually an accordion title element -->
+		<accordion-title (click)="onNewChapterGroup($event)" *ngIf="role == 'TEACHER'">
+			<fa name="plus"></fa>
+			Add an edition
+		</accordion-title>
+		<hr>
+
+		<!-- Item per chapter -->
+		<accordion-item *ngFor="let chapterGroup of chapterGroups; let i = index"
+						[itemTitle]="getAccordionTitle(chapterGroup, true)" [active]="i === 0"
+						[hideTitleWhenExpanded]="true">
+
+			<chapter-group-track-listing
+					(onDelete)="removeFromList(i)"
+					[chapterGroup]="chapterGroup">
+			</chapter-group-track-listing>
+
+
+		</accordion-item>
+	</accordion>
+	<div *ngIf="chapterGroups.length == 0" class="info-message">
+		No course editions have been setup yet
+	</div>
+</main>
+
+<ng-template #loading>
+	<main>
+		<loading-spinner></loading-spinner>
+	</main>
+</ng-template>

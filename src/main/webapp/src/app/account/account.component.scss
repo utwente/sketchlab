@@ -1,0 +1,43 @@
+@import "../../styles/variables";
+
+main {
+	width: 100%;
+
+	::ng-deep .content-wrapper {
+		text-align: center;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+
+		h1 {
+			text-transform: uppercase;
+			font-size: $default-text-size-huge;
+		}
+		h2 {
+			font-size: $default-text-size-large;
+			margin-bottom: $page-segment-spacing;
+		}
+
+		div {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			margin-bottom: 0.25rem;
+			position: relative;
+			input:not([type="checkbox"]), .button, .button-yellow, .button-black, .button-red {
+				width: 250px;
+			}
+
+			.error-message {
+				min-width: 250px;
+			}
+		}
+		label {
+			display: inline-flex;
+			align-items: center;
+			box-sizing: border-box;
+			text-align: left;
+		}
+	}
+}

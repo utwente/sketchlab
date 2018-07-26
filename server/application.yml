@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    username: sketchlab
+    password: *****
+    url: jdbc:postgresql://localhost/sketchlab
+  profiles:
+    active: prod
+
+sketchlab:
+  tomcat:
+    ajp:
+      # Automatically use AJP. Set this to false if you want to use regular HTTP.
+      enabled: true
+      # The AJP port to use.
+      ports:
+        - 8209
+  sso:
+    logout:
+        url: https://signon.utwente.nl/utsso/logout.jsp

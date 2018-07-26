@@ -1,0 +1,49 @@
+# Default profile is production
+spring.profiles.active: prod
+
+# Database configuration
+spring:
+  jooq.sql-dialect: POSTGRES_9_5
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  http.multipart:
+    enabled: true
+    max-file-size: 25MB
+    max-request-size: 25MB
+  mail:
+    host: smtps.utwente.nl
+
+flyway.locations: classpath:db/migration/common, classpath:db/migration/postgresql
+
+# Server configuration
+server:
+  session:
+    persistent: false
+    cookie.name: 'Sketchlab'
+  tomcat:
+    remote-ip-header: 'NS-Client-IP'
+
+# Security configuration
+security:
+  basic.enabled: false
+
+# Nerf the self-ad spam of jooq
+logging.level.org.jooq.Constants: WARN
+
+sketchlab:
+  root-url: https://sketchlab.utwente.nl
+  tomcat:
+    connectors:
+      - protocol: 'AJP/1.3'
+        port: 8209
+  email:
+    from: noreply@sketchlab.utwente.nl
+    from-personal: 'Sketchlab Account Manager'
+  sso:
+    logout:
+      url: https://signon.utwente.nl/utsso/logout.jsp
+  internal-user:
+    registration:
+      blocked-domains:
+        - '@utwente.nl'
+        - '@student.utwente.nl'

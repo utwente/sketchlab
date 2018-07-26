@@ -1,0 +1,20 @@
+<div class="content-wrapper">
+	<h1>Turn in {{ task ? task.name : ''}}</h1>
+	<div>
+		<file-upload [uploadUrl]="getUploadUrl()" [data]="getUploadData()"
+					 (onUploaded)="onUpload($event)"
+					 [allowedDataTypes]="['image/jpg', 'image/jpeg', 'image/png']"></file-upload>
+	</div>
+	<div class="previous-uploads">
+		<h2>Previous uploads</h2>
+		<div class="previous-uploads-content">
+			<paged-content [page]="submissionsPage"
+						   (onPageChange)="getSubmissions($event)">
+				<ng-template let-content>
+					<submission-list [submissions]="content" [showUser]="true"></submission-list>
+				</ng-template>
+			</paged-content>
+		</div>
+	</div>
+</div>
+

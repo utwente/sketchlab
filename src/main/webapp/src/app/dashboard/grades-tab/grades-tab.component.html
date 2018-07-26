@@ -1,0 +1,14 @@
+<ng-container *ngIf="enrollments; else loading">
+	<ng-container *ngIf="!!enrollments.length; else empty">
+		<div class="grade-container" *ngFor="let enrollment of enrollments">
+			<grade [enrollment]="enrollment"></grade>
+		</div>
+	</ng-container>
+</ng-container>
+
+<ng-template #empty>
+	<div class="info-message">No enrollments found.</div>
+</ng-template>
+<ng-template #loading>
+	<loading-spinner></loading-spinner>
+</ng-template>

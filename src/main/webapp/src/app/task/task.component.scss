@@ -1,0 +1,158 @@
+@import "../../styles/variables";
+
+:host {
+	// Use a vertical flexbox
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+	background-color: $footer-background-color;
+}
+
+header {
+	display: flex;
+	justify-content: space-between;
+	padding: $page-segment-inner-spacing;
+
+	button, h1 {
+		font-size: $default-text-size-large;
+		color: white;
+	}
+}
+
+.content-container {
+	display: flex;
+	align-items: stretch;
+
+	.menu {
+		display: none;
+	}
+
+	.task-content {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+
+		.task-page {
+			margin-bottom: $page-segment-inner-spacing;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		.task-examples-segment, .turn-in-assignment-segment {
+			padding: $page-segment-spacing;
+			background-color: $page-segment-background-color;
+		}
+	}
+
+	::ng-deep {
+		h1 {
+			font-size: $default-text-size-larger;
+		}
+		h2 {
+			font-size: $default-text-size-large;
+		}
+
+		hr {
+			margin-left: -$page-segment-inner-spacing;
+			margin-right: -$page-segment-inner-spacing;
+			height: 2px;
+			background: none;
+			border: none;
+			@include tabbar-bottom-border;
+		}
+	}
+}
+
+@media #{$breakpoint-only-desktop} {
+	.content-container {
+		.menu {
+			@include page-segment;
+
+			display: block;
+			margin-right: $page-segment-spacing;
+
+			.sticky {
+				position: sticky;
+				top: $page-segment-inner-spacing;
+
+				aside {
+					width: 300px;
+
+					& > *:not(h1):not(.button) {
+						font-size: $default-text-size-large;
+					}
+
+					h1 {
+						font-size: $default-text-size-larger;
+
+						&.ideation {
+							color: $colorIdeation;
+						}
+						&.form {
+							color: $colorForm;
+						}
+						&.basics {
+							color: $colorBasics;
+						}
+						&.communication {
+							color: $colorCommunication;
+						}
+					}
+
+					ul {
+						padding: 0;
+						list-style-type: none;
+						li {
+							color: $default-text-color-lighter;
+
+							margin-bottom: $page-segment-inner-spacing;
+
+							&:last-child {
+								margin-bottom: 0;
+							}
+						}
+					}
+
+					.operations {
+						float: right;
+					}
+
+					hr {
+						margin-top: $page-segment-inner-spacing;
+						margin-bottom: $page-segment-inner-spacing;
+					}
+
+				}
+				.related-tasks {
+					margin-top: $page-segment-inner-spacing;
+					ul {
+						padding: 0;
+						margin: 0;
+						list-style-type: none;
+						li {
+							margin-left: $page-segment-inner-spacing;
+							color: $default-text-color-lighter;
+							font-size: $default-text-size;
+						}
+					}
+					p {
+						padding: 0;
+						color: $default-text-color-lighter;
+						margin: 0 0 0 $page-segment-inner-spacing;
+					}
+				}
+			}
+		}
+	}
+}
+a, a:visited {
+	text-decoration: inherit;
+	color: inherit;
+
+	&:hover, &:active {
+		color: $default-text-color;
+		cursor: pointer;
+	}
+}

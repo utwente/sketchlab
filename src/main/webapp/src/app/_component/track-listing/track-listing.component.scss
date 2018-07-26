@@ -1,0 +1,236 @@
+@import "../../../styles/variables";
+
+$track-color: $default-text-color-lighter; // the lines
+$text-color: $default-text-color;
+
+$task-circle-diameter: 12px;
+$track-line-width: 3px;
+$track-entry-width: 140px;
+$track-entry-width-mobile: 80px;
+
+// Style for the assignments component.
+header, main {
+	background-color: $page-segment-background-color;
+}
+
+.chapter-title {
+	margin: $page-segment-spacing;
+	text-align: center;
+	font-weight: normal;
+	font-size: $default-text-size-larger;
+
+	.title {
+		padding: 4px 8px;
+		border: 1px solid transparent;
+		&.editable:hover {
+			border-color: $hr-color;
+		}
+	}
+
+	.role {
+		color: $track-color;
+		font-size: $default-text-size-large;
+	}
+}
+
+// The core layout is done via rows, so that a wrapping task name can "push" the whole row to be taller
+.track-row {
+	display: flex;
+	align-items: stretch;
+	justify-content: space-evenly;
+	flex-direction: row;
+	min-height: 50px;
+
+	&.track-header {
+		.track-entry {
+			border-left: none; // hide the border for the title
+		}
+		p {
+			font-weight: bold;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+}
+
+// Within the rows there are entries, not all are filled with a task.
+.track-entry {
+	position: relative;
+	flex: none;
+	flex-grow: 0;
+	width: $track-entry-width;
+	margin-left: $task-circle-diameter / 2 + $track-line-width / 2;
+	color: $text-color;
+	padding: 0;
+	text-align: left;
+	display: inline-block;
+	user-select: none;
+
+	.color-top-inactive .color-top, .color-bottom-inactive .color-bottom {
+		background-color: $track-color;
+	}
+
+	// Track colors
+	// The four tracks have different colors
+	@mixin track-color($color) {
+		$hoverColor: darken($color, 15%);
+
+		&.track-colored {
+			color: $color;
+		}
+
+		// Recolor the circle for tasks
+		&.track-colored .task:before, .add-task:before {
+			background-color: $color;
+		}
+
+		&.track-colored:hover .task:before, .add-task:before {
+			background-color: $hoverColor;
+		}
+
+		// Color the progress
+		.color-top-active .color-top, .color-bottom-active .color-bottom {
+			background-color: $color;
+		}
+	}
+
+	&.track-basics {
+		@include track-color($colorBasics);
+	}
+	&.track-ideation {
+		@include track-color($colorIdeation);
+	}
+	&.track-form {
+		@include track-color($colorForm);
+	}
+	&.track-communication {
+		@include track-color($colorCommunication);
+	}
+
+	.track-progress-color {
+		position: absolute;
+		margin-left: -$track-line-width;
+		left: 0;
+		height: 50%;
+		width: $track-line-width;
+
+		&.color-top {
+			top: 0;
+		}
+
+		&.color-bottom {
+			bottom: 0;
+		}
+	}
+
+	// Drag-and-drop
+	&.dnd-drag-over {
+		background-color: lightgray;
+
+		// Hide the add task when dragging/dropping
+		.add-task {
+			opacity: 0;
+		}
+	}
+}
+
+.track-chapter-title {
+	background-color: $track-color;
+	padding: 10px;
+	text-align: center;
+	color: white;
+
+	span {
+		vertical-align: middle;
+
+		// The chapter name and then the chapter group name are put in spans
+		// Put '/' characters between these spans
+		&:nth-child(n+2):before {
+			content: '/ ';
+		}
+	}
+
+	// Display the editing tools only on hover
+	fa {
+		display: inline;
+		cursor: pointer;
+		opacity: 0;
+		line-height: 0;
+		vertical-align: middle;
+	}
+	&:hover fa {
+		opacity: 0.5;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+}
+
+.track-entry-item {
+	text-align: left;
+	vertical-align: top;
+	padding: 20px 0 20px 10px;
+	text-overflow: ellipsis;
+
+	// Use the before to make the circle on the track
+	&.task:before, &.add-task:hover:before {
+		content: "";
+		position: absolute;
+		left: -($task-circle-diameter + $track-line-width) / 2;
+		width: $task-circle-diameter;
+		height: $task-circle-diameter;
+		top: 50%;
+		margin-top: -($task-circle-diameter / 2);
+		border-radius: 50%;
+		background-color: $track-color;
+	}
+
+	&.add-task {
+		color: white;
+	}
+
+	&:hover {
+		color: black;
+		cursor: pointer;
+
+		&.add-task {
+			color: $text-color;
+		}
+
+		&:before {
+			background-color: darken($track-color, 15%);
+		}
+
+		fa {
+			visibility: visible;
+
+			&:hover {
+				color: #8c0024;
+			}
+		}
+	}
+
+	span {
+		cursor: pointer !important;
+	}
+
+	fa {
+		cursor: pointer !important;
+		vertical-align: middle;
+		color: #ccc;
+		visibility: hidden;
+	}
+
+}
+
+// Drag-and-drop (dnd) styling
+.dnd-drag-start {
+	color: gray;
+}
+
+@media #{$breakpoint-only-phone} {
+	.track-entry {
+		width: $track-entry-width-mobile;
+	}
+}

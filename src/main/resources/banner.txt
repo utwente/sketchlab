@@ -1,0 +1,9 @@
+
+${AnsiColor.YELLOW}${AnsiStyle.BOLD}   _____ _       ${AnsiColor.CYAN}${AnsiStyle.BOLD} _       _    ${AnsiColor.MAGENTA}${AnsiStyle.BOLD} _       _
+${AnsiColor.YELLOW}${AnsiStyle.BOLD}  / ____| |      ${AnsiColor.CYAN}${AnsiStyle.BOLD}| |     | |   ${AnsiColor.MAGENTA}${AnsiStyle.BOLD}| |     | |
+${AnsiColor.YELLOW}${AnsiStyle.BOLD} | (___ | | _____${AnsiColor.CYAN}${AnsiStyle.BOLD}| |_ ___| |__ ${AnsiColor.MAGENTA}${AnsiStyle.BOLD}| | __ _| |__
+${AnsiColor.YELLOW}${AnsiStyle.BOLD}  \___ \| |/ / _ \${AnsiColor.CYAN}${AnsiStyle.BOLD} __/ __| '_ \${AnsiColor.MAGENTA}${AnsiStyle.BOLD}| |/ _` | '_ \
+${AnsiColor.YELLOW}${AnsiStyle.BOLD}  ____) |   |  __/${AnsiColor.CYAN}${AnsiStyle.BOLD} || (__| | | |${AnsiColor.MAGENTA}${AnsiStyle.BOLD} | (_| | |_) |
+${AnsiColor.YELLOW}${AnsiStyle.BOLD} |_____/|_|\_\___|${AnsiColor.CYAN}${AnsiStyle.BOLD}\__\___|_| |_|${AnsiColor.MAGENTA}${AnsiStyle.BOLD}_|\__,_|_.__/
+
+${AnsiColor.BLUE} Spring ${spring-boot.formatted-version}

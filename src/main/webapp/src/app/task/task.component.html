@@ -1,0 +1,110 @@
+<pop-up-page [pageTitle]="!!task ? task.name : ''">
+	<div *ngIf="!loading && valid && task; else alternate">
+		<div class="content-container">
+			<div class="segment menu">
+				<div class="sticky">
+					<aside>
+						<h1 [ngClass]="getTrackClass()">
+							{{ task.name }}
+							<span class="operations" *ngIf="isEditable()">
+							<a><fa name="pencil" (click)="editTask()"></fa></a>
+							<a><fa name="trash" (click)="deleteTask()"></fa></a>
+						</span>
+							<span class="operations" *ngIf="!isEditable() && isTeacher()">
+							<a [routerLink]="['/courses', task.chapterId, 'tasks', task.id]"><fa
+									name="pencil"></fa></a>
+						</span>
+							<br>
+							<small>
+								{{ chapter.label }} <br> {{ !!chapterGroup ? '/ ' +
+								chapterGroup.name :
+								''}}
+							</small>
+						</h1>
+						<ul #taskPageList>
+							<li *ngFor="let tp of taskPages; let index = index">
+								<a pageScroll [href]="'#page'+tp.id">{{ tp.title }}</a>
+								<span class="operations" *ngIf="isEditable()">
+								<a *ngIf="index != 0">
+									<fa name="arrow-up"
+										(click)="swapUp(index); $event.stopPropagation()"></fa></a>
+								<a *ngIf="index != taskPages.length - 1">
+									<fa name="arrow-down"
+										(click)="swapDown(index); $event.stopPropagation()"></fa></a>
+								<a>
+									<fa name="trash"
+										(click)="deleteTaskPage(tp); $event.stopPropagation()"></fa></a>
+							</span>
+							</li>
+							<li *ngIf="isEditable()" (click)="addTaskPage()">
+								<a>
+									<fa name="plus"></fa>
+									New step
+								</a>
+							</li>
+							<li *ngIf="showExamples || isEditable()"><a pageScroll href="#examples">Examples</a>
+							</li>
+						</ul>
+						<ng-container *ngIf="!isAnonymous() && !isEditable()">
+							<hr>
+							<a class="text-button" pageScroll href="#question">
+								<fa name="question"></fa>
+								Questions
+							</a>
+						</ng-container>
+						<ng-container *ngIf="!isAnonymous() && !isTeacher() && !isTa()">
+							<hr>
+							<button class="button" pageScroll href="#turn-in-assignment">
+								Turn in assignment
+							</button>
+						</ng-container>
+					</aside>
+					<div class="related-tasks">
+						<h2>Next Assignments</h2>
+						<ul *ngIf="nextTasks && nextTasks.length > 0">
+							<li *ngFor="let next of nextTasks">
+								<a [routerLink]="getTaskRouterLink(next)">{{next.name}}</a>
+							</li>
+						</ul>
+						<p *ngIf="!nextTasks || nextTasks.length == 0">
+							No further assignments.
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="task-content">
+				<div class="task-page" *ngFor="let taskPage of taskPages" id="page{{taskPage.id}}">
+					<task-page [chapterId]="task.chapterId" [taskPage]="taskPage"
+							   [editable]="isEditable()"
+							   (onEdited)="getTaskPages()"></task-page>
+				</div>
+
+				<div class="task-page" id="examples">
+					<task-examples [task]="task" (showExamples)="setShowExamples($event)"
+								   [editable]="isEditable()"></task-examples>
+				</div>
+				<div class="task-page" id="question" *ngIf="!isAnonymous() && !isEditable()">
+					<task-question [task]="task" [chapterGroupId]="chapterGroup.id"></task-question>
+				</div>
+
+				<ng-container *ngIf="!isAnonymous() && !isTeacher() && !isTa()">
+					<div id="turn-in-assignment" class="task-page turn-in-assignment-segment">
+						<task-submission [task]="task"
+										 [chapterGroupId]="chapterGroup.id"></task-submission>
+					</div>
+				</ng-container>
+			</div>
+
+		</div>
+	</div>
+</pop-up-page>
+
+<ng-template #alternate>
+	<ng-container *ngIf="loading && valid; else invalid">
+		<loading-spinner></loading-spinner>
+	</ng-container>
+	<ng-template #invalid>
+		<div class="info-message">The given task can not be found.</div>
+	</ng-template>
+</ng-template>

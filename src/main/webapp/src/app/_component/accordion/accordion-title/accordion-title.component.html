@@ -1,0 +1,4 @@
+<h1 class="accordion-head" [ngClass]="{active: active}">
+	<fa *ngIf="showCaret" [name]="active ? 'caret-down' : 'caret-right'"></fa>
+	<ng-content></ng-content>
+</h1>

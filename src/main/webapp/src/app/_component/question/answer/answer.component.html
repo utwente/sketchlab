@@ -1,0 +1,16 @@
+<section class="answer">
+	<main>
+		<avatar [user]="message.user" [size]="64"></avatar>
+		<div class="message">
+			<p class="user-text-title">
+				{{message.user.firstName}} {{message.user.lastName}}
+				<ng-container *ngIf="isAnswer">replied</ng-container>
+				<ng-container *ngIf="!isAnswer">asked</ng-container>
+			</p>
+			<div class="user-text">
+				{{message.text}}
+			</div>
+		</div>
+		<time *ngIf="showTime">{{message.createdAt | momentAgo}}</time>
+	</main>
+</section>

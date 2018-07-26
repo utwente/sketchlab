@@ -1,0 +1,42 @@
+@import "../../../styles/variables";
+
+footer {
+	//flex-grow: 0;
+	flex-shrink: 0;
+	color: $footer-color;
+	background-color: $footer-background-color;
+	padding: $page-segment-inner-spacing * 2;
+
+	font-size: $footer-font-size;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	p {
+		margin: 0;
+	}
+
+	#logo-text {
+		font-size: 1rem;
+		font-weight: bold;
+	}
+
+	a {
+		color: $footer-color;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	.footer-navigation {
+		margin-left: auto;
+		margin-right: 55px;
+	}
+}
+
+@media #{$breakpoint-phone-and-tablet} {
+	footer {
+		display: none;
+	}
+}

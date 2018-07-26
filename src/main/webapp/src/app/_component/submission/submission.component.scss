@@ -1,0 +1,100 @@
+@import "../../../styles/variables";
+
+$submission-card-width: 400px;
+$submission-card-content-width: $submission-card-width;
+
+$submission-card-content-height: $submission-card-content-width;
+$submission-card-header-height: 75px;
+$submission-card-footer-height: 50px;
+
+$submission-card-height: $submission-card-header-height +
+		$submission-card-content-height +
+		$submission-card-footer-height;
+
+.submission {
+	width: $submission-card-width;
+	background-color: white;
+	position: relative;
+	border: 1px solid $accent-color-gray;
+	box-sizing: border-box;
+	user-select: none;
+
+	header {
+		height: $submission-card-header-height;
+		box-sizing: border-box;
+		display: flex;
+		.user-avatar, div {
+			padding-left: 1em;
+			display: flex;
+			margin: 0;
+			flex-direction: column;
+			justify-content: center;
+			h1, h2 {
+				margin: 0;
+				padding: 0;
+				font-weight: normal;
+			}
+			h1 {
+				font-size: $default-text-size-large;
+			}
+			h2 {
+				font-size: 0.8em;
+				color: $default-text-color-lighter;
+			}
+		}
+	}
+	.submission-content {
+		height: $submission-card-content-height;
+		max-height: $submission-card-content-height;
+		width: 100%;
+		background: no-repeat center;
+		background-size: contain;
+	}
+
+	footer {
+		height: $submission-card-footer-height;
+		max-height: $submission-card-footer-height;
+		line-height: $submission-card-footer-height;
+		text-align: center;
+		box-sizing: border-box;
+		display: flex;
+		width: 100%;
+		font-size: $default-text-size-large;
+		color: $default-text-color-lighter;
+		a, span {
+			flex-grow: 1;
+			flex-wrap: nowrap;
+
+			&:not(.disabled):hover {
+				color: $default-text-color;
+			}
+
+			::ng-deep {
+				.text-button {
+					color: $default-text-color-lighter;
+
+					&:hover {
+						color: $default-text-color;
+					}
+				}
+			}
+		}
+	}
+
+	&.clickable:hover {
+		cursor: pointer;
+		h1 {
+			color: $sketchlab-logo-hover-color;
+		}
+	}
+}
+
+@media #{$breakpoint-only-phone} {
+	.submission {
+		width: 100%;
+		min-width: $phone-minimum-width;
+		max-width: $breakpoint-phone-size;
+		border-left: 0;
+		border-right: 0;
+	}
+}

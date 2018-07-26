@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+# Determine Maven project root
+determine_project_root() {
+    project_root=$(pwd -P 2>/dev/null || command pwd)
+    while [ ! -e "${project_root}/pom.xml" ]; do
+        project_root=${project_root%/*}
+        if [ "$project_root" = "" ]; then break; fi
+    done
+
+    if [ "$project_root" = "" ]; then
+        echo "Can not determine Maven project root"
+        exit 1
+    fi
+    echo "${project_root}"
+    return $?
+}
+
+PROJECT_ROOT="$(determine_project_root)"
+NODE_DIR="$PROJECT_ROOT/target/node"
+NODE_EXE="$NODE_DIR/node"
+NPM_JS="$NODE_DIR/node_modules/npm/bin/npm-cli.js"
+NPX_JS="$NODE_DIR/node_modules/npm/bin/npx-cli.js"
+
+# Try to use maven wrapper, otherwise try to use local installation.
+mvn_cmd() {
+    (
+        cd "$PROJECT_ROOT"
+        mvn_command="$(pwd)/mvnw"
+        if [ ! -f "$mvn_command" ]; then
+            if [ ! $(hash mvn 2>/dev/null) ]; then
+                exit 1
+            fi
+            mvn_command="mvn"
+        fi
+        "${mvn_command}" $@
+    )
+    return $?
+}
+
+# Try to use local node, otherwise try gloabl installation
+run_node_cmd() {
+    program="$1"
+    global_program="$2"
+    shift 2
+
+    if [ ! -x "${NODE_EXE}" ] || [ ! -f "${program}" ]; then
+        mvn_cmd frontend:install-node-and-npm
+    fi
+
+    if [ -x "${NODE_EXE}" ] && [ -f "${program}" ]; then
+        "${NODE_EXE}" "${program}" "$@"
+        return $?
+    elif [ ! $(hash "${global_program}" 2>/dev/null) ]; then
+        "$(which ${global_program})" "$@"
+        return $?
+    fi
+    
+    echo "Can not determine ${global_program} location."
+    exit 1
+}
+
+run_node_cmd "${NPM_JS}" "npm" set scripts-prepend-node-path true
+
+case "$0" in
+    *npmw*)
+        run_node_cmd "${NPM_JS}" "npm" "$@"
+        ;;
+    *npxw*)
+        run_node_cmd "${NPX_JS}" "npx" "$@"
+        ;;
+esac

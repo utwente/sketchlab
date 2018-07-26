@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+###############################################################################
+# Performs a clean up of a PostgreSQL database
+# Large objects can be orphaned, which will hog op disk space.
+# To counter this, we have to perform vacuumlo.
+#
+# Author: Jelle Stege
+###############################################################################
+
+while (( "$#" )); do
+    echo "$(date +"%Y-%m-%d %H:%M:%S %z") [$$] Performing vacuumlo on instance $1"
+    vacuumlo "$1"
+    echo "$(date +"%Y-%m-%d %H:%M:%S %z") [$$] vacuumlo finished for $1"
+    shift
+done

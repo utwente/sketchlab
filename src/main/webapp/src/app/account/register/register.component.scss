@@ -1,0 +1,17 @@
+@import "../../../styles/variables";
+
+div {
+	width: auto;
+	align-items: center;
+	position: relative;
+
+	.error-message {
+		min-width: 250px;
+	}
+}
+label {
+	display: inline-flex;
+	align-items: center;
+	box-sizing: border-box;
+	text-align: left;
+}

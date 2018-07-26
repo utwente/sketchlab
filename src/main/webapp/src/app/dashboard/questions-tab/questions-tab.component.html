@@ -1,0 +1,11 @@
+<ng-container *ngIf="!!questions; else loading">
+	<question *ngFor="let question of questions" [question]="question"></question>
+</ng-container>
+
+<ng-template #loading>
+	<loading-spinner></loading-spinner>
+</ng-template>
+
+<ng-container *ngIf="!!questions && questions.length == 0">
+	<div class="info-message">No questions found.</div>
+</ng-container>

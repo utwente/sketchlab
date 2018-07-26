@@ -1,0 +1,57 @@
+@import "../../../styles/variables";
+
+@mixin file-upload-box($color) {
+	border-color: $color;
+	color: $color;
+
+	&:hover {
+		box-shadow: inset 0 0 10px lighten($color, 20%);
+	}
+}
+
+.drop-container {
+	@include file-upload-box($accent-color);
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: 300px;
+	box-sizing: border-box;
+	position: relative;
+	user-select: none;
+
+	font-size: $default-text-size-larger;
+
+	border: 2px solid;
+
+	text-align: center;
+
+	p {
+		margin: 0;
+	}
+	input {
+		display: none;
+	}
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	&.file-over {
+		background-color: $accent-color;
+		color: white;
+
+		label {
+			color: white;
+		}
+	}
+
+	&.invalid {
+		@include file-upload-box($accent-color-red);
+	}
+
+	&.done {
+		@include file-upload-box($accent-color-green);
+	}
+}

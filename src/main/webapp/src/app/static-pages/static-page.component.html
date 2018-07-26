@@ -1,0 +1,14 @@
+<decorated-page [hideAnonymousAnnoyBar]="true">
+	<hamburger-menu [title]="'Links'">
+		<ul class="static-pages-links">
+			<li routerLink="/help">Help</li>
+			<li routerLink="/contact">Contact</li>
+			<li routerLink="/privacy">Privacy Statement</li>
+			<li routerLink="/tos">Terms of Service</li>
+		</ul>
+	</hamburger-menu>
+
+	<main>
+		<ng-content></ng-content>
+	</main>
+</decorated-page>

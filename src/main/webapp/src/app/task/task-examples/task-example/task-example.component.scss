@@ -1,0 +1,65 @@
+@import "../../../../styles/variables";
+
+$task-example-width: 400px;
+$task-example-content-width: $task-example-width;
+$task-example-content-height: $task-example-content-width;
+$task-example-footer-height: 50px;
+
+.task-example {
+	width: $task-example-width;
+	background-color: white;
+	border: 1px solid $accent-color-gray;
+	box-sizing: border-box;
+
+	.task-example-content {
+		height: $task-example-content-height;
+		max-height: $task-example-content-height;
+		width: 100%;
+		background: no-repeat center;
+		background-size: contain;
+	}
+
+	.example-comment {
+		padding: $page-segment-inner-spacing;
+		box-sizing: border-box;
+		width: 100%;
+	}
+
+	footer {
+		height: $task-example-footer-height;
+		max-height: $task-example-footer-height;
+		line-height: $task-example-footer-height;
+		text-align: center;
+		box-sizing: border-box;
+		display: flex;
+		width: 100%;
+		font-size: $default-text-size-larger;
+		color: $default-text-color-lighter;
+		a {
+			flex-grow: 1;
+			flex-wrap: nowrap;
+
+			&:not(.not-teacher):hover {
+				color: $default-text-color;
+			}
+		}
+	}
+	&:hover {
+		cursor: pointer;
+	}
+}
+
+@media #{$breakpoint-only-phone} {
+	.task-example {
+		width: 100%;
+		min-width: $phone-minimum-width;
+		max-width: $breakpoint-phone-size;
+
+		border-left: 0;
+		border-right: 0;
+
+		&:hover {
+			cursor: default;
+		}
+	}
+}

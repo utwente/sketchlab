@@ -1,0 +1,39 @@
+<ng-container *ngIf="users && users.length > 0; else noUsers">
+	<option-select [items]="sortOptions" [selected]="sortOptions[0].content" (onChange)="sortUsers($event)"
+				   label="Sort"></option-select>
+	<div class="content-wrapper">
+		<ul>
+			<li *ngFor="let user of users" class="member">
+				<div class="avatar">
+					<avatar [user]="user" [size]="50"></avatar>
+				</div>
+				<div class="user-data">
+					<div class="username">
+						<a [routerLink]="createUrl(user)" *ngIf="!isTa(user); else noTa">{{user.firstName}}
+							{{user.lastName}}</a>
+						<ng-template #noTa>{{user.firstName}} {{user.lastName}}</ng-template>
+					</div>
+					<div class="badges">
+						<ul>
+							<li *ngIf="user.enrollment.assistant" class="badge ta-badge">
+								Teaching Assistant
+							</li>
+							<li *ngIf="!!user.enrollment.grade && !user.enrollment.assistant" class="badge graded-badge">
+								Graded
+							</li>
+						</ul>
+					</div>
+					<div class="operations" *ngIf="isTeacher() && (!isTa(user) || allowTaEditing)">
+						<fa name="pencil" (click)="clickEditEnrollment(user)" *ngIf="!isTa(user)"></fa>
+						<fa name="trash" (click)="clickDeleteEnrollment(user)"></fa>
+					</div>
+				</div>
+
+			</li>
+		</ul>
+	</div>
+</ng-container>
+
+<ng-template #noUsers>
+	<p class="info-message">No users found.</p>
+</ng-template>

@@ -1,0 +1,26 @@
+<h1>Manage group enrollments{{showUsername ? ' for ' + user.firstName : ''}}</h1>
+<p class="error-message" *ngIf="errorMessage">{{errorMessage}}</p>
+<ul *ngIf="chapterSubgroups && chapterSubgroups.length > 0; else noGroups">
+	<li *ngFor="let subgroup of chapterSubgroups">
+		<button *ngVar="isEnrolled(subgroup) as enrolled"
+				class="button" [ngClass]="{'button-yellow': enrolled}"
+				(click)="toggleEnrollment(subgroup)"
+				[disabled]="!enrolled && isGroupFull(subgroup)">
+			<span>{{subgroup.name}}</span>
+			<span>
+				<span *ngIf="subgroup.size && subgroup.size > 0"
+							  [ngClass]="{'full': isGroupFull(subgroup)}">
+				({{subgroup.enrolledUserCount}}/{{subgroup.size}})
+				</span>
+				<fa name="check" *ngIf="enrolled"></fa>
+			</span>
+		</button>
+	</li>
+</ul>
+<section class="dialog-buttons">
+	<button class="button-yellow" (click)="close()">Done</button>
+</section>
+
+<ng-template #noGroups>
+	<p class="info-message">No groups found.</p>
+</ng-template>

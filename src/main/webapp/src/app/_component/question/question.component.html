@@ -1,0 +1,37 @@
+<div class="notification-container">
+	<header>
+		<p class="title">
+			{{getAuthorName()}}	asked about <span class="focus">{{question.task.name}}</span>
+		</p>
+	</header>
+	<section class="notification">
+
+		<main>
+			<avatar [user]="question.user" [size]="64"></avatar>
+			<div class="message">
+				<p class="user-text-title">{{question.user.firstName}} {{question.user.lastName}} asked</p>
+				<div class="user-text">
+					{{question.text}}
+				</div>
+			</div>
+			<time>{{question.createdAt | momentAgo}}</time>
+		</main>
+		<footer class="answers">
+			<section *ngIf="!question.answers || question.answers.length == 0" class="answer">
+				<i>No replies yet</i>
+			</section>
+			<answer *ngFor="let answer of question.answers" [answer]="answer" [showTime]="true"></answer>
+		</footer>
+
+		<footer class="new-answer">
+			<input *ngIf="showAnswerBox" [formControl]="answerFormControl" placeholder="Write a comment" type="text">
+			<div class="button-row">
+				<button class="text-button" *ngIf="!showAnswerBox" (click)="toggleCommentBox()">Reply</button>
+				<button class="text-button" *ngIf="showAnswerBox" [disabled]="!answerFormControl.valid" (click)="sendAnswer()">Send</button>
+				<button class="text-button" *ngIf="showAnswerBox" (click)="toggleCommentBox()">Cancel</button>
+			</div>
+		</footer>
+
+
+	</section>
+</div>

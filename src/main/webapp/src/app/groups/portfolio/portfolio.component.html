@@ -1,0 +1,14 @@
+<tab-bar>
+	<li *ngIf="user" [routerLinkActive]="['selected']">
+		Portfolio of {{user.firstName}}{{user.lastName ? ' ' + user.lastName : ''}}
+	</li>
+</tab-bar>
+<grade *ngIf="showGrade()" [enrollment]="enrollment" [editable]="isTeacher()"></grade>
+<option-select [items]="sortOptions" [selected]="sortOptions[1].content" label="Sort"
+			   (onChange)="getSubmissions($event)"></option-select>
+<paged-content [page]="submissionsPage"
+			   (onPageChange)="getSubmissions(ordering, $event)">
+	<ng-template let-content>
+		<submission-list [submissions]="content" [showUser]="false"></submission-list>
+	</ng-template>
+</paged-content>

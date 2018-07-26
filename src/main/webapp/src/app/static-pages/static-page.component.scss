@@ -1,0 +1,30 @@
+@import "../../styles/variables";
+
+.static-pages-links {
+	padding: 0;
+	list-style-type: none;
+	li {
+		color: $default-text-color-lighter;
+
+		margin-bottom: $page-segment-inner-spacing;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		&:hover {
+			color: $default-text-color;
+			cursor: pointer;
+		}
+
+		a, a:hover, a:active, a:visited {
+			text-decoration: inherit;
+			color: inherit;
+		}
+	}
+}
+
+main {
+	background-color: $page-segment-background-color;
+	padding: $page-segment-inner-spacing;
+}

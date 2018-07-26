@@ -1,0 +1,15 @@
+<div class="notifications" *ngIf="!!notifications; else loading">
+	<notification-object
+			*ngFor="let notification of notifications"
+			[notification]="notification"
+			(onDelete)="onDelete($event)">
+	</notification-object>
+
+	<div class="info-message" *ngIf="notifications.length == 0">
+		<fa name="check"></fa> All caught up!
+	</div>
+</div>
+
+<ng-template #loading>
+	<loading-spinner></loading-spinner>
+</ng-template>

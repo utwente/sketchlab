@@ -1,0 +1,47 @@
+<decorated-page>
+	<hamburger-menu [title]="'Personal'">
+		<div class="content-container">
+			<avatar *ngIf="!!this.user" [user]="user" [size]="200" [editable]="true"></avatar>
+		</div>
+		<div class="content-container">
+			<div class="title" *ngIf="!!this.user">
+				<h3 [title]="this.user.role | titlecase">{{this.user.firstName}} {{this.user.lastName}}</h3>
+				{{this.user.friendlyId}}
+			</div>
+		</div>
+		<div class="content-container" *ngIf="isInternal()">
+			<button class="text-button with-icon" [routerLink]="['change-password']">
+				<fa name="pencil"></fa>
+				<span>Change Password</span>
+			</button>
+		</div>
+		<div class="button-container" *ngIf="!isAnonymous()">
+			<button class="button" (click)="logout()">Log Out</button>
+		</div>
+		<hr>
+	</hamburger-menu>
+
+	<main>
+		<tab-bar>
+			<li [routerLink]="['./']" [routerLinkActive]="['selected']" [routerLinkActiveOptions]="{exact: true}">
+				<a>Notifications</a>
+			</li>
+
+			<li [routerLink]="['questions']" *ngIf="isStudent()" [routerLinkActive]="['selected']">
+				<a>Questions</a>
+			</li>
+
+			<li [routerLink]="['portfolios']" *ngIf="isStudent()" [routerLinkActive]="['selected']">
+				<a>Portfolios</a>
+			</li>
+
+			<li [routerLink]="['grades']" *ngIf="isStudent()" [routerLinkActive]="['selected']">
+				<a>Grades</a>
+			</li>
+			<li [routerLink]="['test']" *ngIf="!isStudent()" [routerLinkActive]="['selected']">
+				<a>Test</a>
+			</li>
+		</tab-bar>
+		<router-outlet></router-outlet>
+	</main>
+</decorated-page>

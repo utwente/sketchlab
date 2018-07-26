@@ -1,0 +1,6 @@
+<ng-container *ngIf="questions && questions.length > 0; else noQuestions">
+	<question *ngFor="let question of questions" [question]="question"></question>
+</ng-container>
+<ng-template #noQuestions>
+	<p class="info-message">No questions present</p>
+</ng-template>

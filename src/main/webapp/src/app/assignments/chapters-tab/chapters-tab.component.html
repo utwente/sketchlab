@@ -1,0 +1,36 @@
+<track-listing-header></track-listing-header>
+
+<main *ngIf="chapters; else loading">
+	<accordion>
+		<!-- + button is actually an accordion title element -->
+		<accordion-title (click)="onNewChapter($event)">
+			<fa name="plus"></fa>
+			Start a new course
+		</accordion-title>
+		<hr>
+
+		<!-- Item per chapter -->
+		<accordion-item
+				*ngFor="let chapter of chapters; let i = index"
+				[itemTitle]="chapter.chapter.label" [active]="i === 0"
+				[hideTitleWhenExpanded]="true">
+
+			<chapter-track-listing
+					(onDelete)="removeFromList(i)"
+					(onCopy)="reload()"
+					[chapter]="chapter">
+			</chapter-track-listing>
+		</accordion-item>
+	</accordion>
+
+	<div *ngIf="chapters.length == 0" class="info-message">
+		No courses have been setup yet
+	</div>
+</main>
+
+
+<ng-template #loading>
+	<main>
+		<loading-spinner></loading-spinner>
+	</main>
+</ng-template>

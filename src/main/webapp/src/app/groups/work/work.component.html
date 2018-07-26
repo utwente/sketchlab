@@ -1,0 +1,12 @@
+<ng-container *ngIf="submissionsPage && submissionsPage.content.length > 0; else noWork">
+	<option-select [items]="sortOptions" [selected]="sortOptions[0].content" label="Sort"
+				   (onChange)="getSubmissions($event)"></option-select>
+	<paged-content [page]="submissionsPage" (onPageChange)="getSubmissions(ordering, $event)">
+		<ng-template let-content>
+			<submission-list [submissions]="content" [showUser]="true"></submission-list>
+		</ng-template>
+	</paged-content>
+</ng-container>
+<ng-template #noWork>
+	<p class="info-message">No work found.</p>
+</ng-template>

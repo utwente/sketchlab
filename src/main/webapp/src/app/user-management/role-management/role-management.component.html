@@ -1,0 +1,29 @@
+<user-search (onResult)="bindUsers($event)"></user-search>
+<table *ngIf="!!users && users.length != 0; else noUsers">
+	<tr>
+		<th class="student-id">Student ID</th>
+		<th class="first-name">First Name</th>
+		<th class="last-name">Last Name</th>
+		<th class="role">Role</th>
+	</tr>
+	<ng-container *ngFor="let user of users">
+		<tr>
+			<td class="student-id" [title]="user.friendlyId ? user.friendlyId : ''">
+				{{user.friendlyId}}
+			</td>
+			<td class="first-name" [title]="user.firstName">{{user.firstName}}</td>
+			<td class="last-name" [title]="user.lastName ? user.lastName : ''">{{user.lastName}}
+			</td>
+			<td class="role" [title]="user.role | titlecase">
+				<option-select [items]="userRoles" [selected]="user.role"
+							   [resetAfterSelect]="true"
+							   (onChange)="updateUserRole(user, $event)">
+				</option-select>
+			</td>
+		</tr>
+	</ng-container>
+</table>
+
+<ng-template #noUsers>
+	<p class="info-message">No users found.</p>
+</ng-template>

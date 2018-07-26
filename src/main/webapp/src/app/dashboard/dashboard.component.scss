@@ -1,0 +1,19 @@
+@import "../../styles/variables";
+:host {
+	min-height: 100%;
+}
+
+/**
+ * Sidebar
+ */
+.title {
+	text-align: center;
+	h3 {
+		margin: 0;
+	}
+}
+.button-container, .content-container {
+	display: flex;
+	justify-content: center;
+	margin-bottom: $page-segment-inner-spacing;
+}

@@ -1,0 +1,157 @@
+@import "../../../styles/variables";
+
+// Main layout
+:host {
+	// Use a vertical flexbox
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+}
+
+/*
+ * Nav bar styling
+ */
+.anonymous-bar {
+	color: $footer-color;
+	font-size: $footer-font-size;
+	background-color: $footer-background-color;
+	text-align: center;
+	padding: $page-segment-inner-spacing;
+}
+
+nav {
+	flex-grow: 0;
+	background-color: $tabbar-background-color;
+}
+
+ul {
+	display: flex;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	@include tabbar-bottom-border;
+}
+
+li.logo {
+	font-weight: bold;
+	font-size: $sketchlab-logo-font-size;
+	color: white;
+	background-color: $sketchlab-logo-color;
+
+	// Mobile and tablet get the slanted logo
+	&.slanted {
+		position: relative;
+
+		&::after {
+			// Makes the slanted part of the logo
+			$width: 20px;
+			content: "";
+			position: absolute;
+			top: 0;
+			right: -$width;
+			width: 0;
+			height: 0;
+			border-bottom: 60px solid transparent;
+			border-left: $width solid $sketchlab-logo-color;
+		}
+
+		&:hover::after {
+			border-left-color: $sketchlab-logo-hover-color;
+		}
+	}
+
+	// Desktop gets the marker logo
+	&.marker {
+		text-align: center;
+		width: 130px;
+		mask-image: url("/assets/logo.svg");
+		mask-repeat: no-repeat;
+		mask-position: center bottom;
+		mask-size: 100%;
+	}
+
+	&:hover {
+		background-color: $sketchlab-logo-hover-color;
+	}
+}
+
+li:not(.middle) {
+	cursor: pointer;
+	user-select: none;
+	padding: 20px $tabbar-item-spacing/2;
+
+	a {
+		text-decoration: none;
+		color: $tabbar-link-color;
+	}
+
+	&:hover:not(#title) a, &.selected a {
+		color: $tabbar-link-active-color;
+	}
+}
+
+li.middle {
+	margin-left: auto;
+}
+
+li#title {
+	color: black;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+main {
+	flex-grow: 1;
+}
+
+@media #{$breakpoint-only-phone} {
+	// For phones, put the sidebar in the hamburger menu
+	#sketchlab-logo {
+		display: none;
+	}
+	.sketchlab-logo-text::before {
+		content: 'S';
+	}
+	.collapsible {
+		display: none;
+	}
+
+	// The menu expanded version still has the full string
+	.mobile-menubar-overlay .sketchlab-logo-text::before {
+		content: 'Sketchlab';
+	}
+}
+
+@media #{$breakpoint-only-tablet} {
+	// For tables, put the sidebar in the hamburger menu but with the big sketchlab logo
+	#sketchlab-logo {
+		display: none;
+	}
+	.sketchlab-logo-text::before {
+		content: 'Sketchlab';
+	}
+}
+
+@media #{$breakpoint-only-desktop} {
+	main {
+		display: flex;
+		align-items: stretch;
+
+		::ng-deep > * {
+			margin: $page-segment-spacing;
+		}
+
+		// This is the content
+		::ng-deep > *:not(:first-child) {
+			margin-left: 0;
+			flex: auto;
+		}
+	}
+
+	#sketchlab-logo-menu {
+		display: none;
+	}
+	.sketchlab-logo-text::before {
+		content: 'Sketchlab';
+	}
+}
